@@ -144,9 +144,10 @@
       <AdditionalDependencies>raylib.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>if not exist "$(SolutionDir)build\assets" ( mkdir  "$(SolutionDir)build\assets" )
-robocopy "$(SolutionDir)$(ProjectName)\assets" "$(SolutionDir)build\assets" /E</Command>
-      <Message>Copying assets to build directory</Message>
+      <Command>
+      </Command>
+      <Message>
+      </Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -154,8 +155,9 @@ robocopy "$(SolutionDir)$(ProjectName)\assets" "$(SolutionDir)build\assets" /E</
     <ClCompile Include="Nibble.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Helper.h" />
+    <ClInclude Include="Helper.hpp" />
     <ClInclude Include="MainMenu.h" />
+    <ClInclude Include="NibbleGUI.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

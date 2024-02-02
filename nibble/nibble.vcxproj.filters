@@ -26,7 +26,10 @@
     <ClInclude Include="MainMenu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Helper.h">
+    <ClInclude Include="Helper.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NibbleGUI.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
