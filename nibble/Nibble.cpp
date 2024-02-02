@@ -5,15 +5,43 @@
 
 #pragma warning(pop)
 
+#include "Helper.h"
+#include "MainMenu.h"
+
 int main() {
+    // initialises program state, initially "starting"
+    ProgramState program_state;
+
     InitWindow(1600, 900, "Nibble - A Microcomputer Simulator");
 
-    while (!WindowShouldClose())
-    {
-        BeginDrawing();
-        ClearBackground(RAYWHITE);
-        DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
-        EndDrawing();
+    SetExitKey(KEY_NULL);
+
+    MainMenu main_menu(&program_state);
+    
+
+    while (!(program_state.state == PROGRAM_STATE_SHOULD_CLOSE)) {
+
+        if (WindowShouldClose()) {
+            program_state.state = PROGRAM_STATE_SHOULD_CLOSE;
+        }
+
+        if (program_state.state == PROGRAM_STATE_STARTING) {
+            // Perform startup procedure
+
+            program_state.state = PROGRAM_STATE_RUNNING;
+        }
+
+        if (program_state.state == PROGRAM_STATE_RUNNING) {
+
+            BeginDrawing();
+            ClearBackground(RAYWHITE);
+
+            main_menu.draw();
+
+            EndDrawing();
+
+        }
+
     }
 
     CloseWindow();
