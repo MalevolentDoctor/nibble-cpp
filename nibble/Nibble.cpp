@@ -5,7 +5,7 @@
 
 #pragma warning(pop)
 
-#include "Helper.h"
+#include "Helper.hpp"
 #include "MainMenu.h"
 
 int main() {

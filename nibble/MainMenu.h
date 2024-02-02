@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Helper.h"
+#include "Helper.hpp"
 
 class MainMenu {
 	public:
