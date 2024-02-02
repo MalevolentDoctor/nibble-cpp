@@ -12,7 +12,7 @@ enum ProgramModes {
 };
 
 
-static struct ProgramState {
+struct ProgramState {
 	int state = PROGRAM_STATE_STARTING;	// State of the program, running, suspended etc.
 	int mode = PROGRAM_MODE_MAIN_MENU;	// Mode of the program, what is it currently doing.
 };
