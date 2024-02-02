@@ -7,6 +7,7 @@
 
 
 #include "MainMenu.h"
+#include "NibbleGUI.hpp"
 
 
 MainMenu::MainMenu(ProgramState* program_state) : program_state(program_state) {
@@ -25,6 +26,9 @@ void MainMenu::draw() {
 
 	if (program_state->mode == PROGRAM_MODE_MAIN_MENU) {
 		DrawText("This text is being drawn from the main menu", 190, 200, 20, LIGHTGRAY);
+		Rectangle rec = { 100, 100, 150, 50};
+
+		nbButton(rec, "Button");
 	}
 
 }
