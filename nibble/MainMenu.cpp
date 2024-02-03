@@ -7,11 +7,11 @@
 
 
 #include "MainMenu.h"
-#include "NibbleGUI.hpp"
+#include "NibbleGUI.h"
 
 
 MainMenu::MainMenu(ProgramState* program_state) : program_state(program_state) {
-
+	gui = NibbleGUI();
 }
 
 void MainMenu::input() {
@@ -28,7 +28,10 @@ void MainMenu::draw() {
 		DrawText("This text is being drawn from the main menu", 190, 200, 20, LIGHTGRAY);
 		Rectangle rec = { 100, 100, 150, 50};
 
-		nbButton(rec, "Button");
+		gui.btn_params.font = gui.gui_fonts.retro_gaming_33;
+		gui.btn_params.font_size = 33;
+		gui.btn_params.font_spacing = 0;
+		gui.Button(rec, "Button");
 	}
 
 }

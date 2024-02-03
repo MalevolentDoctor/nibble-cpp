@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Helper.hpp"
+#include "NibbleGUI.h"
 
 class MainMenu {
 	public:
@@ -13,6 +14,6 @@ class MainMenu {
 
 	private:
 		ProgramState* program_state;
-
+		NibbleGUI gui;
 };
 
