@@ -29,6 +29,7 @@ struct GuiFonts {
 	Font retro_gaming_11 = LoadFontEx("assets/fonts/retro_gaming_11px.ttf", 11, 0, 250);
 	Font retro_gaming_22 = LoadFontEx("assets/fonts/retro_gaming_11px.ttf", 22, 0, 250);
 	Font retro_gaming_33 = LoadFontEx("assets/fonts/retro_gaming_11px.ttf", 33, 0, 250);
+	Font retro_gaming_99 = LoadFontEx("assets/fonts/retro_gaming_11px.ttf", 99, 0, 250);
 
 	Font kong_text_8 = LoadFontEx("assets/fonts/kongtext.ttf", 8, 0, 250);
 	Font kong_text_16 = LoadFontEx("assets/fonts/kongtext.ttf", 16, 0, 250);
@@ -43,10 +44,10 @@ struct GuiColours {
 };
 
 struct GuiPalette {
-	GuiColours normal_palette;		// Colours under normal operation
-	GuiColours hover_palette = { GRAY, DARKGRAY, DARKGRAY };	// Colours when being hovered over
-	GuiColours pressed_palette;		// Colours when pressed
-	GuiColours disabled_palette;		// Colours when disabled
+	GuiColours normal;		// Colours under normal operation
+	GuiColours hover = { GRAY, DARKGRAY, DARKGRAY };	// Colours when being hovered over
+	GuiColours pressed;		// Colours when pressed
+	GuiColours disabled = { {176, 176, 176, 255},{122, 122, 122, 255}, {122, 122, 122, 255} };		// Colours when disabled
 };
 
 struct ButtonParams {
@@ -71,7 +72,7 @@ class NibbleGUI {
 		bool Button(Rectangle bounds, std::string text);
 		
 		ButtonParams btn_params;
-		GuiPalette gui_palette;
+		GuiPalette palette;
 		GuiFonts gui_fonts;
 
 	private:

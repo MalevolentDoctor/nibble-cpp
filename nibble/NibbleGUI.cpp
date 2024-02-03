@@ -5,22 +5,22 @@ NibbleGUI::NibbleGUI() {
 }
 
 bool NibbleGUI::Button(Rectangle bounds, std::string text) {
-#define palette btn_params.active_palette
+#define btn_palette btn_params.active_palette
 
 	bool pressed = false;
 
-	palette = gui_palette.normal_palette;
+	btn_palette = palette.normal;
 
 	// Check user input
 	Vector2 mouse_pos = GetMousePosition();
 	if (CheckCollisionPointRec(mouse_pos, bounds)) {
 		if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
 			// If pressing the button
-			palette = gui_palette.pressed_palette;
+			btn_palette = palette.pressed;
 		}
 		else {
 			// If hovering over, but not pressing, the button
-			palette = gui_palette.hover_palette;
+			btn_palette = palette.hover;
 		}
 
 		// Send pressed event when mouse button is released
@@ -30,7 +30,7 @@ bool NibbleGUI::Button(Rectangle bounds, std::string text) {
 	}
 
 	// Background
-	DrawRectangleRounded(bounds, btn_params.corner_roundness, btn_params.corner_segments, palette.background);
+	DrawRectangleRounded(bounds, btn_params.corner_roundness, btn_params.corner_segments, btn_palette.background);
 
 	// Border
 	Rectangle bd_bounds = { 
@@ -39,7 +39,7 @@ bool NibbleGUI::Button(Rectangle bounds, std::string text) {
 		bounds.width - btn_params.border_w, 
 		bounds.height - btn_params.border_w 
 	};
-	DrawRectangleRoundedLines(bd_bounds, btn_params.corner_roundness, btn_params.corner_segments, btn_params.border_w, palette.border);
+	DrawRectangleRoundedLines(bd_bounds, btn_params.corner_roundness, btn_params.corner_segments, btn_params.border_w, btn_palette.border);
 
 	// Text
 	DrawTextAligned(
@@ -49,7 +49,7 @@ bool NibbleGUI::Button(Rectangle bounds, std::string text) {
 		bounds,
 		btn_params.text_padding,
 		btn_params.text_align,
-		palette.text
+		btn_palette.text
 	);
 
 	return pressed;
