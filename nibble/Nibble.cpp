@@ -12,6 +12,7 @@ int main() {
     // initialises program state, initially "starting"
     ProgramState program_state;
 
+    SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     InitWindow(1600, 900, "Nibble - A Microcomputer Simulator");
 
     SetExitKey(KEY_NULL);
@@ -39,9 +40,7 @@ int main() {
             main_menu.draw();
 
             EndDrawing();
-
         }
-
     }
 
     CloseWindow();
