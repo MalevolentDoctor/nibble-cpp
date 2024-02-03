@@ -21,6 +21,9 @@
     <ClCompile Include="MainMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="NibbleGUI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainMenu.h">
@@ -29,7 +32,7 @@
     <ClInclude Include="Helper.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NibbleGUI.hpp">
+    <ClInclude Include="NibbleGUI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
