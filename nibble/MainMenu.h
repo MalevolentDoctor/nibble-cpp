@@ -15,5 +15,8 @@ class MainMenu {
 	private:
 		ProgramState* program_state;
 		NibbleGUI gui;
+
+		Font title_font;
+		const char* title_text = "NIBBLE";
 };
 
