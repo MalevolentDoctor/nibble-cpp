@@ -9,18 +9,18 @@ bool NibbleGUI::Button(Rectangle bounds, std::string text) {
 
 	bool pressed = false;
 
-	palette = btn_params.normal_palette;
+	palette = gui_palette.normal_palette;
 
 	// Check user input
 	Vector2 mouse_pos = GetMousePosition();
 	if (CheckCollisionPointRec(mouse_pos, bounds)) {
 		if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
 			// If pressing the button
-			palette = btn_params.pressed_palette;
+			palette = gui_palette.pressed_palette;
 		}
 		else {
 			// If hovering over, but not pressing, the button
-			palette = btn_params.hover_palette;
+			palette = gui_palette.hover_palette;
 		}
 
 		// Send pressed event when mouse button is released
@@ -45,7 +45,6 @@ bool NibbleGUI::Button(Rectangle bounds, std::string text) {
 	DrawTextAligned(
 		text.c_str(),
 		btn_params.font,
-		btn_params.font_size,
 		btn_params.font_spacing,
 		bounds,
 		btn_params.text_padding,
@@ -53,18 +52,16 @@ bool NibbleGUI::Button(Rectangle bounds, std::string text) {
 		palette.text
 	);
 
-	
-
 	return pressed;
 
 #undef pallete
 }
 
-void NibbleGUI::DrawTextAligned(const char* text, Font font, int font_size, float font_spacing, Rectangle bounds, Rectangle padding, int alignment, Color colour) {
+void NibbleGUI::DrawTextAligned(const char* text, Font font, float font_spacing, Rectangle bounds, Rectangle padding, int alignment, Color colour) {
 	int x = 0;
 	int y = 0;
 
-	Vector2 text_size = MeasureTextEx(font, text, font_size, font_spacing);
+	Vector2 text_size = MeasureTextEx(font, text, font.baseSize, font_spacing);
 
 	if (alignment & TEXT_ALIGN_CENTRE_H) {
 		x = ((int)(bounds.x + padding.x + bounds.x + bounds.width - padding.width) >> 1) - ((int)text_size.x >> 1);
@@ -86,5 +83,5 @@ void NibbleGUI::DrawTextAligned(const char* text, Font font, int font_size, floa
 		y = (int)(bounds.y + bounds.height - padding.height - text_size.y);
 	}
 
-	DrawTextEx(font, text, { (float)x, (float)y }, font_size, font_spacing, colour);
+	DrawTextEx(font, text, { (float)x, (float)y }, font.baseSize, font_spacing, colour);
 }

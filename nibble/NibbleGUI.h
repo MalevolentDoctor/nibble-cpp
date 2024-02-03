@@ -29,28 +29,34 @@ struct GuiFonts {
 	Font retro_gaming_11 = LoadFontEx("assets/fonts/retro_gaming_11px.ttf", 11, 0, 250);
 	Font retro_gaming_22 = LoadFontEx("assets/fonts/retro_gaming_11px.ttf", 22, 0, 250);
 	Font retro_gaming_33 = LoadFontEx("assets/fonts/retro_gaming_11px.ttf", 33, 0, 250);
+
+	Font kong_text_8 = LoadFontEx("assets/fonts/kongtext.ttf", 8, 0, 250);
+	Font kong_text_16 = LoadFontEx("assets/fonts/kongtext.ttf", 16, 0, 250);
+	Font kong_text_24 = LoadFontEx("assets/fonts/kongtext.ttf", 24, 0, 250);
+	Font kong_text_32 = LoadFontEx("assets/fonts/kongtext.ttf", 32, 0, 250);
 };
 
-struct GuiColourPalette {
+struct GuiColours {
 	Color background = LIGHTGRAY;	// Primary colour
 	Color border = GRAY;			// Secondary colour
-	Color text = GRAY;				// Tertiary colour
+	Color text = BLACK;				// Tertiary colour
+};
+
+struct GuiPalette {
+	GuiColours normal_palette;		// Colours under normal operation
+	GuiColours hover_palette = { GRAY, DARKGRAY, DARKGRAY };	// Colours when being hovered over
+	GuiColours pressed_palette;		// Colours when pressed
+	GuiColours disabled_palette;		// Colours when disabled
 };
 
 struct ButtonParams {
-	GuiColourPalette normal_palette;		// Colours under normal operation
-	GuiColourPalette hover_palette = { GRAY, DARKGRAY, DARKGRAY };	// Colours when being hovered over
-	GuiColourPalette pressed_palette;		// Colours when pressed
-	GuiColourPalette disabled_palette;		// Colours when disabled
+	GuiColours active_palette;		// Palette currently being used
 
-	GuiColourPalette active_palette;		// Palette currently being used
-
-	float corner_roundness = 0.5f;		// Corner roundness [0,1]
-	int corner_segments = 0;
+	float corner_roundness = 0.0f;		// Corner roundness [0,1]
+	int corner_segments = 10;
 	float border_w = 4.0f;
 
 	Font font = GetFontDefault();
-	float font_size = 30.0f;
 	float font_spacing = 3.0f;
 
 	int text_align = TEXT_ALIGN_CENTRE_H | TEXT_ALIGN_CENTRE_V;
@@ -65,10 +71,11 @@ class NibbleGUI {
 		bool Button(Rectangle bounds, std::string text);
 		
 		ButtonParams btn_params;
+		GuiPalette gui_palette;
 		GuiFonts gui_fonts;
 
 	private:
-		void DrawTextAligned(const char* text, Font font, int font_size, float font_spacing, Rectangle bounds, Rectangle padding, int alignment, Color colour);
+		void DrawTextAligned(const char* text, Font font, float font_spacing, Rectangle bounds, Rectangle padding, int alignment, Color colour);
 
 		
 };
