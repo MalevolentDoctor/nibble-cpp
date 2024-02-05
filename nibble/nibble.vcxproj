@@ -153,12 +153,14 @@
   <ItemGroup>
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Nibble.cpp" />
+    <ClCompile Include="NibbleDesktop.cpp" />
     <ClCompile Include="NibbleGUI.cpp" />
     <ClCompile Include="NibbleWorkbench.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Helper.hpp" />
     <ClInclude Include="MainMenu.h" />
+    <ClInclude Include="NibbleDesktop.h" />
     <ClInclude Include="NibbleGUI.h" />
     <ClInclude Include="NibbleWorkbench.h" />
   </ItemGroup>

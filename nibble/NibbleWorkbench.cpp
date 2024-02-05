@@ -10,17 +10,34 @@
 
 
 #include "NibbleWorkbench.h"
+#include "NibbleDesktop.h"
 
 
 NibbleWorkbench::NibbleWorkbench(ProgramState* program_state) : program_state(program_state) {
-
+	desktop = NibbleDesktop(program_state);
 }
 
 void NibbleWorkbench::input() {
 	// Keyboard input
+
+	// View Desktop
 	if (IsKeyPressed(KEY_F1)) { workbench_page = WORKBENCH_PAGE_COMPUTER; }
-	if (IsKeyPressed(KEY_F2)) { workbench_page = WORKBENCH_PAGE_COMPUTER_IMMERSIVE; }
-	if (IsKeyPressed(KEY_F2)) { workbench_page = WORKBENCH_PAGE_MICROCOMPUTER; }
+
+	// Toggle between desktop viewing modes
+	if (IsKeyPressed(KEY_F2)) { 
+		if (desktop.getDesktopMode() == DESKTOP_MODE_INACTIVE) {
+			desktop.setDesktopMode(DESKTOP_MODE_ACTIVE);
+			desktop.setDesktopZoom(2.0f);
+
+		}
+		else if (desktop.getDesktopMode() == DESKTOP_MODE_ACTIVE) {
+			desktop.setDesktopMode(DESKTOP_MODE_INACTIVE);
+			desktop.setDesktopZoom(1.0f);
+		}
+	}
+
+	// View microcomputer
+	if (IsKeyPressed(KEY_F3)) { workbench_page = WORKBENCH_PAGE_MICROCOMPUTER; }
 
 	// Mouse input
 	// using the sides of the screen
@@ -37,13 +54,10 @@ void NibbleWorkbench::update(float dt) {
 }
 
 void NibbleWorkbench::draw() {
+
 	if (workbench_page == WORKBENCH_PAGE_COMPUTER) {
 		// Draw computer far
-	}
-
-	if (workbench_page == WORKBENCH_PAGE_COMPUTER_IMMERSIVE) {
-		// Draw computer close
-
+		desktop.draw();
 	}
 
 	if (workbench_page == WORKBENCH_PAGE_MICROCOMPUTER) {
