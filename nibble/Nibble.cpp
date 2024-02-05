@@ -7,17 +7,20 @@
 
 #include "Helper.hpp"
 #include "MainMenu.h"
+#include "NibbleWorkbench.h"
 
 int main() {
     // initialises program state, initially "starting"
     ProgramState program_state;
 
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
-    InitWindow(1600, 900, "Nibble - A Microcomputer Simulator");
+    InitWindow(1920, 1080, "Nibble - A Microcomputer Simulator");
 
     SetExitKey(KEY_NULL);
 
+    // Declare objects
     MainMenu main_menu(&program_state);
+    NibbleWorkbench workbench(&program_state);
     
 
     while (!(program_state.state == PROGRAM_STATE_SHOULD_CLOSE)) {
@@ -26,18 +29,24 @@ int main() {
             program_state.state = PROGRAM_STATE_SHOULD_CLOSE;
         }
 
+        // Perform startup procedure
         if (program_state.state == PROGRAM_STATE_STARTING) {
-            // Perform startup procedure
+            
+
 
             program_state.state = PROGRAM_STATE_RUNNING;
         }
 
         if (program_state.state == PROGRAM_STATE_RUNNING) {
 
+            if (program_state.mode == PROGRAM_MODE_WORKBENCH) { workbench.input(); }
+
             BeginDrawing();
             ClearBackground(RAYWHITE);
 
-            main_menu.draw();
+            if (program_state.mode == PROGRAM_MODE_MAIN_MENU) { main_menu.draw(); }
+            if (program_state.mode == PROGRAM_MODE_WORKBENCH) { workbench.draw(); }
+
 
             EndDrawing();
         }

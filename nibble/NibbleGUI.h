@@ -51,14 +51,11 @@ struct GuiPalette {
 };
 
 struct ButtonParams {
-	GuiColours active_palette;		// Palette currently being used
-
 	float corner_roundness = 0.0f;		// Corner roundness [0,1]
 	int corner_segments = 10;
 	float border_w = 4.0f;
 
-	Font font = GetFontDefault();
-	float font_spacing = 3.0f;
+
 
 	int text_align = TEXT_ALIGN_CENTRE_H | TEXT_ALIGN_CENTRE_V;
 
@@ -69,14 +66,28 @@ class NibbleGUI {
 	public:
 		NibbleGUI();
 
-		bool Button(Rectangle bounds, std::string text);
-		
-		ButtonParams btn_params;
-		GuiPalette palette;
-		GuiFonts gui_fonts;
+		bool button(Rectangle bounds, std::string text);
+
+		void setGUIColourPalette(GuiPalette gui_palette);
+		void setButtonParams(ButtonParams button_params);
+		void setGUIFont(Font _font, float _font_spacing);
+		void setGUIOffset(float x, float y);
+		void setGUIScale(float x, float y);
+
+		GuiFonts fonts;
 
 	private:
-		void DrawTextAligned(const char* text, Font font, float font_spacing, Rectangle bounds, Rectangle padding, int alignment, Color colour);
+		void DrawTextAligned(const char* text, Rectangle bounds, Rectangle padding, int alignment, Color colour);
+
+		ButtonParams btn_params;
+		GuiPalette palette;
+
+		Font font = GetFontDefault();
+		float font_spacing = 3.0f;
+
+		// UI Elements offset (for interactive elements
+		Vector2 offset = { 0.0f, 0.0f };
+		Vector2 scale = { 1.0f, 1.0f };
 
 		
 };
