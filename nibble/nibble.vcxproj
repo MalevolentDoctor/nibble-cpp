@@ -153,15 +153,19 @@
   <ItemGroup>
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Nibble.cpp" />
+    <ClCompile Include="NibbleConsole.cpp" />
     <ClCompile Include="NibbleDesktop.cpp" />
     <ClCompile Include="NibbleGUI.cpp" />
+    <ClCompile Include="NibbleKeyboard.cpp" />
     <ClCompile Include="NibbleWorkbench.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Helper.hpp" />
     <ClInclude Include="MainMenu.h" />
+    <ClInclude Include="NibbleConsole.h" />
     <ClInclude Include="NibbleDesktop.h" />
     <ClInclude Include="NibbleGUI.h" />
+    <ClInclude Include="NibbleKeyboard.h" />
     <ClInclude Include="NibbleWorkbench.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
