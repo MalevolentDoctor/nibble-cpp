@@ -21,7 +21,7 @@ class NibbleKeyboard {
 		int repeat_key = 0;
 
 		float repeat_timer = 0;
-		float repeat_interval = 0.2;
+		float repeat_interval = 0.1;
 		float repeat_delay = 0.5;
 
 		int unicode_shift_offset[95] = {
@@ -38,4 +38,3 @@ class NibbleKeyboard {
 
 
 #endif
-
