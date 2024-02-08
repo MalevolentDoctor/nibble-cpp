@@ -7,6 +7,7 @@
 #pragma warning(pop)
 
 #include "NibbleDesktop.h"
+#include "NibbleConsole.h"
 #include "NibbleGUI.h"
 
 NibbleDesktop::NibbleDesktop(ProgramState* program_state) : program_state(program_state) {
@@ -19,13 +20,20 @@ NibbleDesktop::NibbleDesktop(ProgramState* program_state) : program_state(progra
 
 	ngui.setGUIFont(ngui.fonts.kong_text_8, 0.0f);
 
-
 	ngui.setButtonParams(desktop_icon_params);
+
+	// Console
+	console = NibbleConsole(screen);
 }
 
 
 
 void NibbleDesktop::input() {
+	if (desktop_mode == DESKTOP_MODE_ACTIVE) {
+		if (desktop_page == DESKTOP_PAGE_CONSOLE) {
+			console.input();
+		}
+	}
 
 }
 
@@ -54,18 +62,23 @@ void NibbleDesktop::draw() {
 
 	// Draw screen contents
 	BeginTextureMode(screen);
+	ClearBackground(RAYWHITE);
 
 	DrawRectangle(0, 0, screen.texture.width, screen.texture.height, GRAY);
 	if (desktop_mode == DESKTOP_MODE_ACTIVE) {
-		DrawTextEx(ngui.fonts.kong_text_8, "DESKTOP IS ACTIVE", { 5, 50 }, 8, 0, BLACK);
+		
 	}
 
 	if (desktop_mode == DESKTOP_MODE_INACTIVE) {
-		DrawTextEx(ngui.fonts.kong_text_8, "DESKTOP IS INACTIVE", { 5, 50 }, 8, 0, BLACK);
+		
 	}
 
 	if (desktop_page == DESKTOP_PAGE_DESKTOP) {
 		drawDesktop();
+	}
+
+	if (desktop_page == DESKTOP_PAGE_CONSOLE) {
+		console.draw();
 	}
 
 	EndTextureMode();
@@ -81,7 +94,7 @@ void NibbleDesktop::drawDesktop() {
 
 	ui_icons.y += ui_icons.height * 1.2;
 	if (ngui.button(ui_icons, "CONSOLE")) {
-
+		setDesktopPage(DESKTOP_PAGE_CONSOLE);
 	}
 
 	ui_icons.y += ui_icons.height * 1.2;
@@ -93,6 +106,7 @@ void NibbleDesktop::drawDesktop() {
 
 void NibbleDesktop::setDesktopMode(int mode) { desktop_mode = mode; }
 void NibbleDesktop::setDesktopZoom(float zoom) { zoom_scale = zoom; }
+void NibbleDesktop::setDesktopPage(int page) { desktop_page = page; }
 
 int NibbleDesktop::getDesktopMode() { return desktop_mode; }
 float NibbleDesktop::getDesktopZoom() { return zoom_scale; }
