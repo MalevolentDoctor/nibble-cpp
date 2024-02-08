@@ -39,12 +39,16 @@ void NibbleWorkbench::input() {
 	// View microcomputer
 	if (IsKeyPressed(KEY_F3)) { workbench_page = WORKBENCH_PAGE_MICROCOMPUTER; }
 
+	if (workbench_page == WORKBENCH_PAGE_COMPUTER) {
+		desktop.input();
+	}
+
 	// Mouse input
 	// using the sides of the screen
 }
 
 void NibbleWorkbench::update(float dt) {
-	if (workbench_page == WORKBENCH_PAGE_COMPUTER || workbench_page == WORKBENCH_PAGE_COMPUTER_IMMERSIVE) {
+	if (workbench_page == WORKBENCH_PAGE_COMPUTER) {
 		// Interact with computer
 	}
 
