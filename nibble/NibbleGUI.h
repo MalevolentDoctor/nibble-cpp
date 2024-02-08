@@ -67,12 +67,16 @@ class NibbleGUI {
 		NibbleGUI();
 
 		bool button(Rectangle bounds, std::string text);
+		void drawText(std::string text_str, float x, float y, Color colour);
 
 		void setGUIColourPalette(GuiPalette gui_palette);
 		void setButtonParams(ButtonParams button_params);
 		void setGUIFont(Font _font, float _font_spacing);
 		void setGUIOffset(float x, float y);
 		void setGUIScale(float x, float y);
+
+		Font getFont();
+		float getFontSpacing();
 
 		GuiFonts fonts;
 
@@ -89,7 +93,6 @@ class NibbleGUI {
 		Vector2 offset = { 0.0f, 0.0f };
 		Vector2 scale = { 1.0f, 1.0f };
 
-		
 };
 
 #endif

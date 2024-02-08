@@ -84,6 +84,10 @@ void NibbleGUI::DrawTextAligned(const char* text, Rectangle bounds, Rectangle pa
 	DrawTextEx(font, text, { (float)x, (float)y }, font.baseSize, font_spacing, colour);
 }
 
+void NibbleGUI::drawText(std::string text_str, float x, float y, Color colour) {
+	DrawTextEx(font, text_str.c_str(), { x, y }, font.baseSize, font_spacing, colour);
+}
+
 void NibbleGUI::setGUIColourPalette(GuiPalette gui_palette) { palette = gui_palette; }
 void NibbleGUI::setButtonParams(ButtonParams button_params) { btn_params = button_params; }
 
@@ -94,3 +98,6 @@ void NibbleGUI::setGUIFont(Font _font, float _font_spacing) {
 
 void NibbleGUI::setGUIOffset(float x, float y) { offset = { x, y }; }
 void NibbleGUI::setGUIScale(float x, float y) { scale = { x, y }; }
+
+Font NibbleGUI::getFont() { return font; }
+float NibbleGUI::getFontSpacing() { return font_spacing; }
