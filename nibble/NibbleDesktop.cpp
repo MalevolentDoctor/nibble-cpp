@@ -7,7 +7,7 @@
 #pragma warning(pop)
 
 #include "NibbleDesktop.h"
-#include "NibbleConsole.h"
+#include "NibbleTerminal.h"
 #include "NibbleGUI.h"
 
 NibbleDesktop::NibbleDesktop(ProgramState* program_state) : program_state(program_state) {
@@ -23,7 +23,7 @@ NibbleDesktop::NibbleDesktop(ProgramState* program_state) : program_state(progra
 	ngui.setButtonParams(desktop_icon_params);
 
 	// Console
-	console = NibbleConsole(screen);
+	console = NibbleTerminal(screen);
 }
 
 

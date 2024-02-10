@@ -35,6 +35,8 @@ struct GuiFonts {
 	Font kong_text_16 = LoadFontEx("assets/fonts/kongtext.ttf", 16, 0, 250);
 	Font kong_text_24 = LoadFontEx("assets/fonts/kongtext.ttf", 24, 0, 250);
 	Font kong_text_32 = LoadFontEx("assets/fonts/kongtext.ttf", 32, 0, 250);
+
+	Font pixel_mono_8 = LoadFontEx("assets/fonts/pixelmono8x8.ttf", 8, 0, 250);
 };
 
 struct GuiColours {

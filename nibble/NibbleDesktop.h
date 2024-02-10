@@ -2,7 +2,7 @@
 
 #include "Helper.hpp"
 #include "NibbleGUI.h"
-#include "NibbleConsole.h"
+#include "NibbleTerminal.h"
 
 enum DesktopPages {
 	DESKTOP_PAGE_DESKTOP,
@@ -31,7 +31,7 @@ class NibbleDesktop {
 
 		ProgramState* program_state;
 		NibbleGUI ngui;
-		NibbleConsole console;
+		NibbleTerminal console;
 
 		int desktop_page = DESKTOP_PAGE_DESKTOP;
 		int desktop_mode = DESKTOP_MODE_INACTIVE;

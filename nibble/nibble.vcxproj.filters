@@ -30,7 +30,7 @@
     <ClCompile Include="NibbleDesktop.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="NibbleConsole.cpp">
+    <ClCompile Include="NibbleTerminal.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="NibbleKeyboard.cpp">
@@ -53,7 +53,7 @@
     <ClInclude Include="NibbleDesktop.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NibbleConsole.h">
+    <ClInclude Include="NibbleTerminal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="NibbleKeyboard.h">
