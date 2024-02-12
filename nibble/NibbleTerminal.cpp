@@ -5,7 +5,10 @@
 #include<vector>
 #include<string>
 #include<algorithm>
-#include<cstdio> // for some debugging
+
+// for some debugging
+#include<cstdio> 
+#include<iostream>
 
 #pragma warning(pop)
 
@@ -65,9 +68,6 @@ void NibbleTerminal::input() {
 			if (keycode == KEY_UP) keyUp();
 			if (keycode == KEY_DOWN) keyDown();
 		}
-
-		printf("Command Buffer Size = %d\n", command_buffer.size());
-		printf("Buffer Selector = %d\n", buffer_selector);
 	}
 }
 
@@ -105,20 +105,44 @@ void NibbleTerminal::keyEnter() {
 		if (command_buffer.size() == 0) {
 			command_buffer.push_back(text.at(cursor.y));
 		}
-		else {
-			if (command_buffer.back() != text.at(cursor.y)) {
-				command_buffer.push_back(text.at(cursor.y));
-			}
+		else if (command_buffer.back() != text.at(cursor.y)) {
+			command_buffer.push_back(text.at(cursor.y));
 		}
 	}
-	
+
+	// Extract command
+	bool override_checks = false;
+	std::string input = text.at(cursor.y).substr(pre_line_offset, text.at(cursor.y).size() - pre_line_offset);
+	std::vector<std::string> split_input = stringSplit(input, " ");
+	std::string command = getCommand(split_input);
+	if (command.substr(0, 1) == "!") override_checks = true;
+	std::vector<std::string> args = getArguments(split_input);
+	std::vector<std::string> flags = getFlags(split_input);
+
+	// Try to execute command
+	if (command == "build") commandBuild();
+	else if (command == "clc") commandClearTerminal();
+	else if (command == "delete") commandDeleteFile();
+	else if (command == "edit") commandOpenEditor();
+	else if (command == "flash") commandFlashRom();
+	else if (command == "help") commandHelp();
+	else if (command == "list") commandListFiles();
+	else if (command == "load") commandLoadFile();
+	else if (command == "new") commandNewFile();
+	else if (command == "ram") commandDisplayRam();
+	else if (command == "rom") commandDisplayRom();
+	else if (command == "save") commandSaveFile();
+	else {
+		printToTerminal("Error: No command \"" + command + "\" found.");
+	}
+
 	// Create new line
 	text.push_back(pre_line);
 	cursor.y++;
 	cursor.x = pre_line_offset;
 
 	// Update scroll position
-	if (cursor.y >= screen_text_height) screen_scroll++;
+	scrollToCursor();
 }
 
 void NibbleTerminal::keyBackspace() {
@@ -173,4 +197,90 @@ void NibbleTerminal::moveCursorLeft(int amount) {
 void NibbleTerminal::moveCursorRight(int amount) {
 	cursor.x += amount;
 	if (cursor.x > text.at(cursor.y).length()) cursor.x = text.at(cursor.y).length();
+}
+
+std::string NibbleTerminal::getCommand(std::vector<std::string> split_input) {
+	return(split_input.at(0));
+}
+
+std::vector<std::string> NibbleTerminal::getArguments(std::vector<std::string> split_input) {
+	std::vector<std::string> arguments;
+	for (int i = 1; i < split_input.size(); i++) {
+		if (split_input.at(i).substr(0, 2) != "--") {
+			arguments.push_back(split_input.at(i));
+		}
+	}
+
+	return arguments;
+}
+
+std::vector<std::string> NibbleTerminal::getFlags(std::vector<std::string> split_input) {
+	std::vector<std::string> flags;
+	for (int i = 1; i < split_input.size(); i++) {
+		if (split_input.at(i).substr(0, 2) == "--") {
+			flags.push_back(split_input.at(i).substr(2, std::string::npos));
+		}
+	}
+
+	return flags;
+}
+
+void NibbleTerminal::commandBuild() {
+
+}
+void NibbleTerminal::commandClearTerminal() {
+	text.clear();
+	cursor.y = -1; // Will go to zero when added to
+	screen_scroll = 0;
+}
+
+void NibbleTerminal::commandDeleteFile() {
+
+}
+void NibbleTerminal::commandOpenEditor() {
+
+}
+void NibbleTerminal::commandFlashRom() {
+
+}
+void NibbleTerminal::commandHelp() {
+
+}
+void NibbleTerminal::commandListFiles() {
+
+}
+void NibbleTerminal::commandLoadFile() {
+
+}
+void NibbleTerminal::commandNewFile() {
+
+}
+void NibbleTerminal::commandDisplayRam() {
+
+}
+void NibbleTerminal::commandDisplayRom() {
+
+}
+void NibbleTerminal::commandSaveFile() {
+
+}
+
+void NibbleTerminal::printToTerminal(std::string string) {
+	text.push_back(string);
+	cursor.y++;
+	scrollToCursor();
+}
+
+void NibbleTerminal::printToTerminal(std::vector<std::string> strings) {
+	for (int s = 0; s < strings.size(); s++) {
+		text.push_back(strings[s]);
+		cursor.y++;
+	}
+	scrollToCursor();
+}
+
+void NibbleTerminal::scrollToCursor() {
+	if (cursor.y >= screen_scroll + screen_text_height) {
+		screen_scroll = cursor.y - screen_text_height + 2;
+	}
 }

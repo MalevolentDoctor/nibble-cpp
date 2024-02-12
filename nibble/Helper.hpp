@@ -1,4 +1,14 @@
-#pragma once
+#ifndef HELPER_HPP
+#define HELPER_HPP
+
+#include <CodeAnalysis/Warnings.h>
+#pragma warning(push)
+#pragma warning(disable: ALL_CODE_ANALYSIS_WARNINGS)
+
+#include<string>
+#include<vector>
+
+#pragma warning(pop)
 
 
 enum ProgramStates {
@@ -22,3 +32,19 @@ struct ProgramState {
 	int mode = PROGRAM_MODE_MAIN_MENU;	// Mode of the program, what is it currently doing.
 };
 
+static std::vector<std::string> stringSplit(std::string string, std::string delimeter) {
+	std::vector<std::string> split_string;
+	size_t pos = 0;
+
+	while ((pos = string.find(delimeter)) != std::string::npos) {
+		split_string.push_back(string.substr(0, pos));
+		string.erase(0, pos + delimeter.length());
+	}
+
+	// If there are no more spaces, return append the rest of the string
+	split_string.push_back(string);
+
+	return split_string;
+}
+
+#endif

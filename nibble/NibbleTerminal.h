@@ -32,6 +32,28 @@ class NibbleTerminal {
 		void keyUp();
 		void keyDown();
 
+		std::string getCommand(std::vector<std::string> split_input);
+		std::vector<std::string> getArguments(std::vector<std::string> split_input);
+		std::vector<std::string> getFlags(std::vector<std::string> split_input);
+
+		void commandBuild();
+		void commandClearTerminal();
+		void commandDeleteFile();
+		void commandOpenEditor();
+		void commandFlashRom();
+		void commandHelp();
+		void commandListFiles();
+		void commandLoadFile();
+		void commandNewFile();
+		void commandDisplayRam();
+		void commandDisplayRom();
+		void commandSaveFile();
+
+		void printToTerminal(std::string string);
+		void printToTerminal(std::vector<std::string> strings);
+		void scrollToCursor();
+
+
 		RenderTexture2D screen;
 		NibbleGUI ngui;
 		NibbleKeyboard nkeyboard;
@@ -50,7 +72,6 @@ class NibbleTerminal {
 
 		// Command buffer
 		int buffer_selector = 0;	// Index to go through command buffer
-
 
 		Cursor cursor = { 0, 0 };
 
