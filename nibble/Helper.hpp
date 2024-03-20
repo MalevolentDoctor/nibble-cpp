@@ -40,6 +40,8 @@ struct ProgramState {
 struct Cursor {
 	int x;
 	int y;
+	int w;
+	int h;
 };
 
 static std::vector<std::string> stringSplit(std::string string, std::string delimeter) {

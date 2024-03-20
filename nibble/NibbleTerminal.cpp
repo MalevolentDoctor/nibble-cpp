@@ -110,7 +110,7 @@ void NibbleTerminal::drawCursor() {
 		DrawRectangle(
 			screen_border.x + screen_buffer.x + cursor.x * font_size.x,
 			screen_border.y + screen_buffer.y + (cursor.y - screen_scroll) * (font_size.y + vspacing) - 1,
-			6, 10, YELLOW
+			cursor.w, cursor.h, YELLOW
 		);
 	}
 }

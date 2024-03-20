@@ -77,7 +77,7 @@ class NibbleTerminal {
 		// Command buffer
 		int buffer_selector = 0;	// Index to go through command buffer
 
-		Cursor cursor = { 0, 0 };
+		Cursor cursor = { 0, 0, 6, 10 };
 
 		std::string pre_line;
 		int pre_line_offset;
