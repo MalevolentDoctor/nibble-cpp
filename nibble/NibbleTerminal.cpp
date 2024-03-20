@@ -82,11 +82,6 @@ void NibbleTerminal::draw() {
 	// Draw backgound
 	DrawRectangle(0, 0, computer->getScreenWidth(), computer->getScreenHeight(), GRAY);
 
-
-
-
-
-
 	DrawRectangle(
 		screen_border.x,
 		screen_border.y,
@@ -95,14 +90,7 @@ void NibbleTerminal::draw() {
 		LIGHTGRAY
 	);
 
-	// Draw cursor
-	if (cursor.y < (screen_scroll + screen_text_height)) {
-		DrawRectangle(
-			screen_border.x + screen_buffer.x + cursor.x * font_size.x,
-			screen_border.y + screen_buffer.y + (cursor.y - screen_scroll) * (font_size.y + vspacing) - 1,
-			6, 10, YELLOW
-		);
-	}
+	drawCursor();
 
 	// Draw text to screen
 	int rows_to_draw = std::min(screen_text_height, (int)text.size() - screen_scroll);
@@ -112,6 +100,17 @@ void NibbleTerminal::draw() {
 			screen_border.x + screen_buffer.x,
 			screen_border.y + screen_buffer.y + (font_size.y + vspacing) * i,
 			BLACK
+		);
+	}
+}
+
+void NibbleTerminal::drawCursor() {
+	// Draw cursor
+	if (cursor.y < (screen_scroll + screen_text_height)) {
+		DrawRectangle(
+			screen_border.x + screen_buffer.x + cursor.x * font_size.x,
+			screen_border.y + screen_buffer.y + (cursor.y - screen_scroll) * (font_size.y + vspacing) - 1,
+			6, 10, YELLOW
 		);
 	}
 }

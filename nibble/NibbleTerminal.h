@@ -24,16 +24,22 @@ class NibbleTerminal {
 		void moveCursorLeft(int amount);
 		void moveCursorRight(int amount);
 
+		// Draw elements
+		void drawCursor();
+
+		// Execute key strokes
 		void keyBackspace();
 		void keyDelete();
 		void keyEnter();
 		void keyUp();
 		void keyDown();
-
+		
+		// Interpret commands
 		std::string getCommand(std::vector<std::string> split_input);
 		std::vector<std::string> getArguments(std::vector<std::string> split_input);
 		std::vector<std::string> getFlags(std::vector<std::string> split_input);
 
+		// Execute commands
 		void commandBuild();
 		void commandClearTerminal();
 		void commandDeleteFile();
