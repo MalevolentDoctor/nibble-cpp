@@ -82,6 +82,8 @@ void NibbleTerminal::draw() {
 	// Draw backgound
 	DrawRectangle(0, 0, computer->getScreenWidth(), computer->getScreenHeight(), GRAY);
 
+	ngui.drawText("NIBBLE TERMINAL", screen_border.width/2, (screen_border.height - ngui.getFontHeight())/2, BLACK);
+
 	DrawRectangle(
 		screen_border.x,
 		screen_border.y,
