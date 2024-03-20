@@ -13,6 +13,7 @@ int main() {
     // initialises program state, initially "starting"
     ProgramState program_state;
 
+    SetTraceLogLevel(4);
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     InitWindow(1920, 1080, "Nibble - A Microcomputer Simulator");
 
@@ -32,8 +33,6 @@ int main() {
         // Perform startup procedure
         if (program_state.state == PROGRAM_STATE_STARTING) {
             
-
-
             program_state.state = PROGRAM_STATE_RUNNING;
         }
 

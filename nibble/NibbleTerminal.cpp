@@ -4,6 +4,7 @@
 
 #include<vector>
 #include<string>
+#include<map>
 #include<algorithm>
 
 // for some debugging
@@ -14,11 +15,12 @@
 
 #include "Helper.hpp"
 #include "NibbleTerminal.h"
+#include "NibbleComputer.h"
 #include "NibbleGUI.h"
 
+NibbleTerminal::NibbleTerminal(NibbleComputer* _computer) {
+	computer = _computer;
 
-
-NibbleTerminal::NibbleTerminal(RenderTexture2D screen) : screen(screen) {
 	ngui = NibbleGUI();
 	nkeyboard = NibbleKeyboard();
 
@@ -36,8 +38,10 @@ NibbleTerminal::NibbleTerminal(RenderTexture2D screen) : screen(screen) {
 	screen_border = { 24.0f, 24.0f, 24.0f, 24.0f };
 	screen_buffer = { 4.0f, 4.0f, 4.0f, 4.0f };
 
-	screen_text_height = (int)((screen.texture.height - (screen_border.y + screen_buffer.y + screen_border.height + screen_buffer.height)) / (font_size.y + vspacing)) + 1;
-	screen_text_width = (int)((screen.texture.width - (screen_border.x + screen_buffer.x + screen_border.width + screen_buffer.width)) / (font_size.x + ngui.getFontSpacing()));
+	screen_text_height = (int)((computer->getScreenHeight() - (screen_border.y + screen_buffer.y + screen_border.height + screen_buffer.height)) / (font_size.y + vspacing)) + 1;
+	screen_text_width = (int)((computer->getScreenWidth() - (screen_border.x + screen_buffer.x + screen_border.width + screen_buffer.width)) / (font_size.x + ngui.getFontSpacing()));
+
+	printf("Terminal 0x%p initialised from computer 0x%p\n", this, computer);
 }
 
 void NibbleTerminal::input() {
@@ -71,14 +75,23 @@ void NibbleTerminal::input() {
 	}
 }
 
+void NibbleTerminal::update() {
+}
+
 void NibbleTerminal::draw() {
 	// Draw backgound
-	DrawRectangle(0, 0, screen.texture.width, screen.texture.height, GRAY);
+	DrawRectangle(0, 0, computer->getScreenWidth(), computer->getScreenHeight(), GRAY);
+
+
+
+
+
+
 	DrawRectangle(
 		screen_border.x,
 		screen_border.y,
-		screen.texture.width - screen_border.width - screen_border.x,
-		screen.texture.height - screen_border.height - screen_border.y,
+		computer->getScreenWidth() - screen_border.width - screen_border.x,
+		computer->getScreenHeight() - screen_border.height - screen_border.y,
 		LIGHTGRAY
 	);
 
@@ -94,9 +107,13 @@ void NibbleTerminal::draw() {
 	// Draw text to screen
 	int rows_to_draw = std::min(screen_text_height, (int)text.size() - screen_scroll);
 	for (int i = 0; i < rows_to_draw; i++) {
-		ngui.drawText(text.at(i + screen_scroll), screen_border.x + screen_buffer.x, screen_border.y + screen_buffer.y + (font_size.y + vspacing) * i, BLACK);
+		ngui.drawText(
+			text.at(i + screen_scroll),
+			screen_border.x + screen_buffer.x,
+			screen_border.y + screen_buffer.y + (font_size.y + vspacing) * i,
+			BLACK
+		);
 	}
-
 }
 
 void NibbleTerminal::keyEnter() {
@@ -238,7 +255,7 @@ void NibbleTerminal::commandDeleteFile() {
 
 }
 void NibbleTerminal::commandOpenEditor() {
-
+	computer->startApplication(COMPUTER_APP_EDITOR, {{"computer", computer}});
 }
 void NibbleTerminal::commandFlashRom() {
 

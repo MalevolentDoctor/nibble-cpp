@@ -10,11 +10,13 @@
 
 
 #include "NibbleWorkbench.h"
-#include "NibbleDesktop.h"
+#include "NibbleComputer.h"
 
 
 NibbleWorkbench::NibbleWorkbench(ProgramState* program_state) : program_state(program_state) {
-	desktop = NibbleDesktop(program_state);
+	//desktop = NibbleDesktop(program_state);
+	computer = new NibbleComputer(program_state);
+	//computer->startTerminal();
 }
 
 void NibbleWorkbench::input() {
@@ -25,14 +27,14 @@ void NibbleWorkbench::input() {
 
 	// Toggle between desktop viewing modes
 	if (IsKeyPressed(KEY_F2)) { 
-		if (desktop.getDesktopMode() == DESKTOP_MODE_INACTIVE) {
-			desktop.setDesktopMode(DESKTOP_MODE_ACTIVE);
-			desktop.setDesktopZoom(2.0f);
+		if (computer->getComputerMode() == DESKTOP_MODE_INACTIVE) {
+			computer->setComputerMode(DESKTOP_MODE_ACTIVE);
+			computer->setComputerZoom(2.0f);
 
 		}
-		else if (desktop.getDesktopMode() == DESKTOP_MODE_ACTIVE) {
-			desktop.setDesktopMode(DESKTOP_MODE_INACTIVE);
-			desktop.setDesktopZoom(1.0f);
+		else if (computer->getComputerMode() == DESKTOP_MODE_ACTIVE) {
+			computer->setComputerMode(DESKTOP_MODE_INACTIVE);
+			computer->setComputerZoom(1.0f);
 		}
 	}
 
@@ -40,7 +42,7 @@ void NibbleWorkbench::input() {
 	if (IsKeyPressed(KEY_F3)) { workbench_page = WORKBENCH_PAGE_MICROCOMPUTER; }
 
 	if (workbench_page == WORKBENCH_PAGE_COMPUTER) {
-		desktop.input();
+		computer->input();
 	}
 
 	// Mouse input
@@ -61,7 +63,7 @@ void NibbleWorkbench::draw() {
 
 	if (workbench_page == WORKBENCH_PAGE_COMPUTER) {
 		// Draw computer far
-		desktop.draw();
+		computer->draw();
 	}
 
 	if (workbench_page == WORKBENCH_PAGE_MICROCOMPUTER) {

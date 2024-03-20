@@ -5,21 +5,19 @@
 #include<vector>
 #include<string>
 
+#include "Helper.hpp"
 #include "NibbleKeyboard.h"
 #include "NibbleGUI.h"
 
-struct Cursor {
-	int x;
-	int y;
-};
+class NibbleComputer;
 
 class NibbleTerminal {
 	public:
-		NibbleTerminal(RenderTexture2D screen);
+		NibbleTerminal(NibbleComputer* _computer);
 		NibbleTerminal() = default;
 
 		void input();
-		void update(float dt);
+		void update();
 		void draw();
 
 	private:
@@ -48,15 +46,15 @@ class NibbleTerminal {
 		void commandDisplayRam();
 		void commandDisplayRom();
 		void commandSaveFile();
+		void commandExit();
 
 		void printToTerminal(std::string string);
 		void printToTerminal(std::vector<std::string> strings);
 		void scrollToCursor();
 
-
-		RenderTexture2D screen;
 		NibbleGUI ngui;
 		NibbleKeyboard nkeyboard;
+		NibbleComputer* computer;
 
 		Rectangle screen_border;
 		Rectangle screen_buffer;

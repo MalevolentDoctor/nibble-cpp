@@ -33,7 +33,6 @@ class NibbleKeyboard {
 			-32, -32, -32, -32, -32, -32, -32, -32, -32, -32, -32, -32, -32, -32, -32, -32, -32, -32, -32, -32, -32, -32, -32, -32, -32, -32,	// Latin Alphabet: Lowercase
 			0, 0, 0, 0																															// ASCII Punctuation & Symbols (4)
 		};
-
 };
 
 

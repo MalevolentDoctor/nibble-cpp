@@ -153,6 +153,8 @@
   <ItemGroup>
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Nibble.cpp" />
+    <ClCompile Include="NibbleComputer.cpp" />
+    <ClCompile Include="NibbleEditor.cpp" />
     <ClCompile Include="NibbleTerminal.cpp" />
     <ClCompile Include="NibbleDesktop.cpp" />
     <ClCompile Include="NibbleGUI.cpp" />
@@ -162,6 +164,8 @@
   <ItemGroup>
     <ClInclude Include="Helper.hpp" />
     <ClInclude Include="MainMenu.h" />
+    <ClInclude Include="NibbleComputer.h" />
+    <ClInclude Include="NibbleEditor.h" />
     <ClInclude Include="NibbleTerminal.h" />
     <ClInclude Include="NibbleDesktop.h" />
     <ClInclude Include="NibbleGUI.h" />

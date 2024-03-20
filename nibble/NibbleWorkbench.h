@@ -2,7 +2,7 @@
 #define NIBBLEWORKBENCH_H
 
 #include "Helper.hpp"
-#include "NibbleDesktop.h"
+#include "NibbleComputer.h"
 
 enum WorkbenchPages {
 	WORKBENCH_PAGE_COMPUTER,
@@ -21,7 +21,7 @@ class NibbleWorkbench {
 		int workbench_page = WORKBENCH_PAGE_COMPUTER;
 		ProgramState* program_state;
 
-		NibbleDesktop desktop;
+		NibbleComputer* computer;
 };
 
 

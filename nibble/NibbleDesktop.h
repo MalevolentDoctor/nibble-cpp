@@ -31,7 +31,7 @@ class NibbleDesktop {
 
 		ProgramState* program_state;
 		NibbleGUI ngui;
-		NibbleTerminal console;
+		NibbleTerminal terminal;
 
 		int desktop_page = DESKTOP_PAGE_DESKTOP;
 		int desktop_mode = DESKTOP_MODE_INACTIVE;
