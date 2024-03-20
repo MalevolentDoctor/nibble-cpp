@@ -103,3 +103,7 @@ Font NibbleGUI::getFont() { return font; }
 float NibbleGUI::getFontSpacing() { return font_spacing; }
 
 int NibbleGUI::getFontHeight() { return font.baseSize; }
+int NibbleGUI::getFontWidth() {
+	Vector2 fontSize = MeasureTextEx(font, "W", font.baseSize, font_spacing);
+	return fontSize.x;
+}

@@ -78,6 +78,7 @@ class NibbleGUI {
 		void setGUIScale(float x, float y);
 
 		int getFontHeight();
+		int getFontWidth();
 
 		Font getFont();
 		float getFontSpacing();
