@@ -101,3 +101,5 @@ void NibbleGUI::setGUIScale(float x, float y) { scale = { x, y }; }
 
 Font NibbleGUI::getFont() { return font; }
 float NibbleGUI::getFontSpacing() { return font_spacing; }
+
+int NibbleGUI::getFontHeight() { return font.baseSize; }
