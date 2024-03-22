@@ -51,7 +51,7 @@ void NibbleWorkbench::input() {
 
 void NibbleWorkbench::update(float dt) {
 	if (workbench_page == WORKBENCH_PAGE_COMPUTER) {
-		// Interact with computer
+		computer->update();
 	}
 
 	if (workbench_page == WORKBENCH_PAGE_MICROCOMPUTER) {

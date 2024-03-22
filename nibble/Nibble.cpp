@@ -38,7 +38,10 @@ int main() {
 
         if (program_state.state == PROGRAM_STATE_RUNNING) {
 
-            if (program_state.mode == PROGRAM_MODE_WORKBENCH) { workbench.input(); }
+            if (program_state.mode == PROGRAM_MODE_WORKBENCH) { 
+                workbench.input(); 
+                workbench.update(GetFrameTime());
+            }
 
             BeginDrawing();
             ClearBackground(RAYWHITE);
