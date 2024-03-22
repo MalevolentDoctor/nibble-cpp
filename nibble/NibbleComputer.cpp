@@ -43,7 +43,9 @@ void NibbleComputer::input() {
 }
 
 void NibbleComputer::update() {
-
+	for (int i = 0; i < apps_count; i++) {
+		appUpdate(apps[i]);
+	}
 }
 
 void NibbleComputer::draw() {
