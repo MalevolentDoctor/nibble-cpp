@@ -19,6 +19,19 @@ class NibbleEditor {
 		void draw();
 
 	private:
+		// Draw elements
+		void drawCursor();
+
+		// Key strokes
+		void keyLeftArrow();
+		void keyRightArrow();
+		void keyUpArrow();
+		void keyDownArrow();
+
+		void keyBackspace();
+		void keyDelete();
+		void keyEnter();
+
 		NibbleGUI ngui;
 		NibbleKeyboard nkeyboard;
 		NibbleComputer* computer;
@@ -34,20 +47,15 @@ class NibbleEditor {
 		int vspacing = 1;
 		int screen_text_height;
 		int screen_text_width;
-		int screen_width_px;
-		int screen_height_px;
 
 		std::vector<std::string> command_buffer;
 
 		int screen_scroll = 0;			// First line to draw to the terminal
 
-		Cursor cursor = { 0, 0 };
+		Cursor cursor = { 0, 0, 6, 10 };
 		int cursor_rest_x = 0;
 
 		int pre_line_offset;
-
-		Font font;
-		Vector2 font_size;
 };
 
 #endif
