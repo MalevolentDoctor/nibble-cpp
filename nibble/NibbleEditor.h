@@ -49,9 +49,8 @@ class NibbleEditor {
 		int screen_text_height;
 		int screen_text_width;
 
-		std::vector<std::string> command_buffer;
-
 		int screen_scroll = 0;			// First line to draw to the terminal
+		int line_indent = 0;
 
 		Cursor cursor = { 0, 0, 6, 10 };
 		int cursor_rest_x = 0;
