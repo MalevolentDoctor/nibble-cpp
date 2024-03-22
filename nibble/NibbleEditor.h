@@ -21,6 +21,7 @@ class NibbleEditor {
 	private:
 		// Draw elements
 		void drawCursor();
+		void drawText();
 
 		// Key strokes
 		void keyLeftArrow();

@@ -62,7 +62,7 @@ void NibbleEditor::input() {
 			// Edit keys
 			//if (keycode == KEY_BACKSPACE) keyBackspace();
 			//if (keycode == KEY_DELETE) keyDelete();
-			//if (keycode == KEY_ENTER) keyEnter();
+			if (keycode == KEY_ENTER) keyEnter();
 		}
 	}
 
@@ -88,22 +88,44 @@ void NibbleEditor::draw() {
 	drawCursor();
 
 	// Draw text to screen
-	int rows_to_draw = std::min(screen_text_height, (int)text.size() - screen_scroll);
-	for (int i = 0; i < rows_to_draw; i++) {
-		ngui.drawText(text.at(i + screen_scroll), screen_border.x + screen_buffer.x, screen_border.y + screen_buffer.y + (ngui.getFontHeight() + vspacing) * i, BLACK);
-	}
+	drawText();
 
 }
 
+void NibbleEditor::drawText() {
+	int rows_to_draw = std::min(screen_text_height, (int)text.size() - screen_scroll);
+	int line_indent = std::to_string(text.size()).size() + 1;
+
+	int x = screen_border.x + screen_buffer.x;
+	int xx = x + line_indent * ngui.getFontWidth();
+	int y = screen_border.y + screen_buffer.y;
+	int dy = ngui.getFontHeight() + vspacing;
+
+	for (int i = 0; i < rows_to_draw; i++) {
+		int line_num = i + screen_scroll;
+		std::string line_num_str = std::to_string(i + screen_scroll);
+
+		int yy = y + dy * i;
+		ngui.drawText(line_num_str, x, yy, DARKGRAY);
+		ngui.drawText(text.at(line_num), xx, yy, BLACK);
+	}
+}
+
 void NibbleEditor::drawCursor() {
-	
-	// Draw cursor
 	if (cursor.y < (screen_scroll + screen_text_height)) {
-		printf("draw_cursor\n");
 		DrawRectangle(
 			screen_border.x + screen_buffer.x + cursor.x * ngui.getFontWidth(),
 			screen_border.y + screen_buffer.y + (cursor.y - screen_scroll) * (ngui.getFontHeight() + vspacing) - 1,
 			cursor.w, cursor.h, YELLOW
 		);
 	}
+}
+
+
+// temporary implementation for implementing line numbers
+void NibbleEditor::keyEnter() {
+	cursor.y++;
+	cursor.x = 0;
+
+	text.push_back("");
 }
