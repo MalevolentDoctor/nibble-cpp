@@ -46,7 +46,7 @@ void NibbleEditor::input() {
 		} else if (keycode >= 32 && keycode <= 126) { // Writable characters
 			std::string string = nkeyboard.getStringFromKeycode(keycode, true);
 			if (string != "") {
-				text.at(cursor.y).append(string);
+				text.at(cursor.y).insert(cursor.x, string);
 				cursor.x++;
 				cursor_x_cache = cursor.x;
 			}
