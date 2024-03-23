@@ -69,7 +69,7 @@ class NibbleGUI {
 		NibbleGUI();
 
 		bool button(Rectangle bounds, std::string text);
-		void drawText(std::string text_str, float x, float y, Color colour);
+		void drawText(std::string text_str, int x, int y, Color colour);
 
 		void setGUIColourPalette(GuiPalette gui_palette);
 		void setButtonParams(ButtonParams button_params);
