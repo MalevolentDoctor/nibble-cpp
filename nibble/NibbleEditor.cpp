@@ -70,7 +70,7 @@ void NibbleEditor::input() {
 }
 
 void NibbleEditor::update() {
-	line_indent = std::to_string(text.size()).size() + 1;
+	line_indent = std::to_string(text.size() - 1).size() + 1;
 }
 
 
