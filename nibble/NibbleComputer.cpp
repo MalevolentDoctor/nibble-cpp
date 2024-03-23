@@ -22,8 +22,8 @@ NibbleComputer::NibbleComputer(ProgramState* program_state) : program_state(prog
 	ngui = NibbleGUI();
 
 	Image background_img = LoadImage("assets/sprites/spr_desk_comp.png");
-	int new_h = background_img.height * zoom_scale/4.0;
-	int new_w = background_img.width * zoom_scale/4.0;
+	int new_h = (int)(background_img.height * zoom_scale/4.0);
+	int new_w = (int)(background_img.width * zoom_scale/4.0);
 		ImageResize(&background_img, new_w, new_h);
 	background_texture = LoadTextureFromImage(background_img);
 	UnloadImage(background_img);
@@ -49,13 +49,12 @@ void NibbleComputer::update() {
 }
 
 void NibbleComputer::draw() {
-	//printf("Computer (%p) Screen from computer (draw): %dx%d\n", this, this->getScreenWidth(), this->getScreenHeight());
-	Rectangle src = { 0, 0, screen.texture.width, -screen.texture.height };
+	Rectangle src = { 0.0, 0.0, (float)getScreenWidth(), -(float)getScreenHeight()};
 	Rectangle dest = {
-		GetScreenWidth() / 2 - screen_resolution_x * zoom_scale / 2,
-		(GetScreenHeight() - screen_resolution_y * zoom_scale) * 0.4,
-		screen.texture.width * zoom_scale,
-		screen.texture.height * zoom_scale
+		(float)(GetScreenWidth() / 2 - screen_resolution_x * zoom_scale / 2),
+		(float)((GetScreenHeight() - screen_resolution_y * zoom_scale)) * 0.4f,
+		(float)getScreenWidth() * zoom_scale,
+		(float)getScreenHeight() * zoom_scale
 	};
 
 	int xx = -(background_texture.width - GetScreenWidth()) / 2;
