@@ -44,6 +44,13 @@ struct Cursor {
 	int h;
 };
 
+struct IntRectangle {
+	int x;
+	int y;
+	int width;
+	int height;
+};
+
 static std::vector<std::string> stringSplit(std::string string, std::string delimeter) {
 	std::vector<std::string> split_string;
 	size_t pos = 0;
