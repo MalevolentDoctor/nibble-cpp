@@ -21,7 +21,6 @@ NibbleEditor::NibbleEditor(NibbleComputer* _computer) {
 
 	ngui.setGUIFont(ngui.fonts.pixel_mono_8, 0.0f);
 
-	pre_line_offset = 2;
 	text.push_back("");
 
 	screen_border = { 24.0f, 24.0f, 24.0f, 24.0f };
@@ -49,8 +48,8 @@ void NibbleEditor::input() {
 				text.at(cursor.y).insert(cursor.x, string);
 				cursor.x++;
 				cursor_x_cache = cursor.x;
+				updateScrollPosition();
 			}
-
 		}
 		// Action characters
 		else {
@@ -129,6 +128,7 @@ void NibbleEditor::keyEnter() {
 	cursor.y++;
 	cursor.x = 0;
 	cursor_x_cache = cursor.x;
+	updateScrollPosition();
 }
 
 
@@ -138,6 +138,7 @@ void NibbleEditor::keyUpArrow() {
 		cursor.y--;
 		cursor.x = (cursor_x_cache > text.at(cursor.y).length()) ? text.at(cursor.y).length() : cursor_x_cache;
 	}
+	updateScrollPosition();
 }
 
 void NibbleEditor::keyDownArrow() {
@@ -145,6 +146,7 @@ void NibbleEditor::keyDownArrow() {
 		cursor.y++;
 		cursor.x = (cursor_x_cache > text.at(cursor.y).length()) ? text.at(cursor.y).length() : cursor_x_cache;
 	}
+	updateScrollPosition();
 }
 
 void NibbleEditor::keyLeftArrow() {
@@ -162,6 +164,7 @@ void NibbleEditor::keyLeftArrow() {
 	}
 
 	cursor_x_cache = cursor.x;
+	updateScrollPosition();
 }
 
 void NibbleEditor::keyRightArrow() {
@@ -178,4 +181,15 @@ void NibbleEditor::keyRightArrow() {
 	}
 
 	cursor_x_cache = cursor.x;
+	updateScrollPosition();
+}
+
+void NibbleEditor::updateScrollPosition() {
+	if (cursor.y < screen_scroll) {
+		screen_scroll = cursor.y;
+	}
+
+	if (cursor.y >= screen_scroll + screen_text_height) {
+		screen_scroll = cursor.y - screen_text_height + 1;
+	}
 }

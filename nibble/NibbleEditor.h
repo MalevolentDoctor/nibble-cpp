@@ -19,6 +19,8 @@ class NibbleEditor {
 		void draw();
 
 	private:
+		void updateScrollPosition();
+		
 		// Draw elements
 		void drawCursor();
 		void drawText();
@@ -54,9 +56,6 @@ class NibbleEditor {
 		int cursor_x_cache = 0;
 
 		Cursor cursor = { 0, 0, 6, 10 };
-		int cursor_rest_x = 0;
-
-		int pre_line_offset;
 };
 
 #endif
