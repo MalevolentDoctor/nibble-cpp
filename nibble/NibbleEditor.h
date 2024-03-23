@@ -8,7 +8,7 @@
 #include "NibbleKeyboard.h"
 #include "NibbleComputer.h"
 #include "NibbleGUI.h"
-
+// running ready blocked stopped ended
 class NibbleEditor {
 	public:
 		NibbleEditor(NibbleComputer* _computer);
@@ -51,6 +51,7 @@ class NibbleEditor {
 
 		int screen_scroll = 0;			// First line to draw to the terminal
 		int line_indent = 0;
+		int cursor_x_cache = 0;
 
 		Cursor cursor = { 0, 0, 6, 10 };
 		int cursor_rest_x = 0;

@@ -48,16 +48,17 @@ void NibbleEditor::input() {
 			if (string != "") {
 				text.at(cursor.y).append(string);
 				cursor.x++;
+				cursor_x_cache = cursor.x;
 			}
 
 		}
 		// Action characters
 		else {
 			// Navigation keys
-			//if (keycode == KEY_LEFT) moveCursorLeft(1);
-			//if (keycode == KEY_RIGHT) moveCursorRight(1);
-			//if (keycode == KEY_UP) moveCursorUp(1);
-			//if (keycode == KEY_DOWN) moveCursorDown(1);
+			if (keycode == KEY_LEFT) keyLeftArrow();
+			if (keycode == KEY_RIGHT) keyRightArrow();
+			if (keycode == KEY_UP) keyUpArrow();
+			if (keycode == KEY_DOWN) keyDownArrow();
 
 			// Edit keys
 			//if (keycode == KEY_BACKSPACE) keyBackspace();
@@ -124,6 +125,56 @@ void NibbleEditor::drawCursor() {
 void NibbleEditor::keyEnter() {
 	cursor.y++;
 	cursor.x = 0;
+	cursor_x_cache = cursor.x;
 
 	text.push_back("");
+}
+
+
+// Arrow Keys
+void NibbleEditor::keyUpArrow() {
+	if (cursor.y > 0) {
+		cursor.y--;
+		cursor.x = (cursor_x_cache > text.at(cursor.y).length()) ? text.at(cursor.y).length() : cursor_x_cache;
+	}
+}
+
+void NibbleEditor::keyDownArrow() {
+	if (cursor.y < text.size() - 1) {
+		cursor.y++;
+		cursor.x = (cursor_x_cache > text.at(cursor.y).length()) ? text.at(cursor.y).length() : cursor_x_cache;
+	}
+}
+
+void NibbleEditor::keyLeftArrow() {
+	cursor.x--;
+
+	// If pressing left at the start of a line go to the previous line, otherwise, don't move.
+	if (cursor.x < 0) {
+		if (cursor.y > 0) {
+			cursor.y--;
+			cursor.x = text.at(cursor.y).length();
+		}
+		else {
+			cursor.x = 0;
+		}
+	}
+
+	cursor_x_cache = cursor.x;
+}
+
+void NibbleEditor::keyRightArrow() {
+	cursor.x++;
+
+	if (cursor.x > text.at(cursor.y).length()) {
+		if (cursor.y < text.size() - 1) {
+			cursor.y++;
+			cursor.x = 0;
+		}
+		else {
+			cursor.x--;
+		}
+	}
+
+	cursor_x_cache = cursor.x;
 }
