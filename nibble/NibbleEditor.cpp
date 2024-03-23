@@ -120,14 +120,15 @@ void NibbleEditor::drawCursor() {
 	}
 }
 
-
-// temporary implementation for implementing line numbers
 void NibbleEditor::keyEnter() {
+
+	text.insert(text.begin() + cursor.y + 1, text.at(cursor.y).substr(cursor.x));	// Insert right of cursor (inlcusive) to next line
+	text.at(cursor.y) = text.at(cursor.y).substr(0, cursor.x); // remove right of cursor (inclusive) from curren line
+
+	// update the cursor position
 	cursor.y++;
 	cursor.x = 0;
 	cursor_x_cache = cursor.x;
-
-	text.push_back("");
 }
 
 
