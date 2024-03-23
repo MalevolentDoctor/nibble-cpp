@@ -60,8 +60,8 @@ void NibbleEditor::input() {
 			if (keycode == KEY_DOWN) keyDownArrow();
 
 			// Edit keys
-			//if (keycode == KEY_BACKSPACE) keyBackspace();
-			//if (keycode == KEY_DELETE) keyDelete();
+			if (keycode == KEY_BACKSPACE) keyBackspace();
+			if (keycode == KEY_DELETE) keyDelete();
 			if (keycode == KEY_ENTER) keyEnter();
 		}
 	}
@@ -131,6 +131,7 @@ void NibbleEditor::keyEnter() {
 	updateScrollPosition();
 }
 
+#pragma region Navigation Keys
 
 // Arrow Keys
 void NibbleEditor::keyUpArrow() {
@@ -184,6 +185,8 @@ void NibbleEditor::keyRightArrow() {
 	updateScrollPosition();
 }
 
+#pragma endregion
+
 void NibbleEditor::updateScrollPosition() {
 	if (cursor.y < screen_scroll) {
 		screen_scroll = cursor.y;
@@ -192,4 +195,35 @@ void NibbleEditor::updateScrollPosition() {
 	if (cursor.y >= screen_scroll + screen_text_height) {
 		screen_scroll = cursor.y - screen_text_height + 1;
 	}
+}
+
+void NibbleEditor::keyBackspace() {
+	// inline backspace
+	if (cursor.x > 0) {
+		text.at(cursor.y).erase((size_t)(cursor.x - 1), 1);
+		cursor.x--;
+	}
+	// cross line backspace
+	else if (cursor.y > 0) {
+		cursor.x = text.at(cursor.y - 1).length();
+		text.at(cursor.y - 1).append(text.at(cursor.y));
+		text.erase(text.begin() + cursor.y);
+		cursor.y--;
+	}
+
+	updateScrollPosition();
+}
+
+void NibbleEditor::keyDelete() {
+	// inline delete
+	if (cursor.x < text.at(cursor.y).length()) {
+		text.at(cursor.y).erase(cursor.x, 1);
+	}
+	// cross line delete
+	else if (cursor.y < text.size() - 1) {
+		text.at(cursor.y).append(text.at(cursor.y + 1));
+		text.erase(text.begin() + cursor.y + 1);
+	}
+
+	updateScrollPosition();
 }
