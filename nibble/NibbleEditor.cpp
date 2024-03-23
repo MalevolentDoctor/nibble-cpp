@@ -23,8 +23,8 @@ NibbleEditor::NibbleEditor(NibbleComputer* _computer) {
 
 	text.push_back("");
 
-	screen_border = { 24.0f, 24.0f, 24.0f, 24.0f };
-	screen_buffer = { 4.0f, 4.0f, 4.0f, 4.0f };
+	screen_border = { 24, 24, 24, 24 };
+	screen_buffer = { 4, 4, 4, 4 };
 
 	screen_text_width = 
 		(int)((computer->getScreenWidth() - (screen_border.x + screen_buffer.x + screen_border.width + screen_buffer.width)) / (ngui.getFontWidth() + ngui.getFontSpacing()));
@@ -70,7 +70,7 @@ void NibbleEditor::input() {
 }
 
 void NibbleEditor::update() {
-	line_indent = std::to_string(text.size() - 1).size() + 1;
+	line_indent = (int)std::to_string(text.size() - 1).size() + 1;
 }
 
 
@@ -137,7 +137,7 @@ void NibbleEditor::keyEnter() {
 void NibbleEditor::keyUpArrow() {
 	if (cursor.y > 0) {
 		cursor.y--;
-		cursor.x = (cursor_x_cache > text.at(cursor.y).length()) ? text.at(cursor.y).length() : cursor_x_cache;
+		cursor.x = (cursor_x_cache > (int)text.at(cursor.y).length()) ? (int)text.at(cursor.y).length() : cursor_x_cache;
 	}
 	updateScrollPosition();
 }
@@ -145,7 +145,7 @@ void NibbleEditor::keyUpArrow() {
 void NibbleEditor::keyDownArrow() {
 	if (cursor.y < text.size() - 1) {
 		cursor.y++;
-		cursor.x = (cursor_x_cache > text.at(cursor.y).length()) ? text.at(cursor.y).length() : cursor_x_cache;
+		cursor.x = (cursor_x_cache > (int)text.at(cursor.y).length()) ? (int)text.at(cursor.y).length() : cursor_x_cache;
 	}
 	updateScrollPosition();
 }
@@ -157,7 +157,7 @@ void NibbleEditor::keyLeftArrow() {
 	if (cursor.x < 0) {
 		if (cursor.y > 0) {
 			cursor.y--;
-			cursor.x = text.at(cursor.y).length();
+			cursor.x = (int)text.at(cursor.y).length();
 		}
 		else {
 			cursor.x = 0;
@@ -205,7 +205,7 @@ void NibbleEditor::keyBackspace() {
 	}
 	// cross line backspace
 	else if (cursor.y > 0) {
-		cursor.x = text.at(cursor.y - 1).length();
+		cursor.x = (int)text.at(cursor.y - 1).length();
 		text.at(cursor.y - 1).append(text.at(cursor.y));
 		text.erase(text.begin() + cursor.y);
 		cursor.y--;
