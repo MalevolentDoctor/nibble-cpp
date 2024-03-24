@@ -58,6 +58,8 @@ void NibbleEditor::input() {
 			if (keycode == KEY_RIGHT) keyRightArrow();
 			if (keycode == KEY_UP) keyUpArrow();
 			if (keycode == KEY_DOWN) keyDownArrow();
+			if (keycode == KEY_END) keyEnd();
+			if (keycode == KEY_HOME) keyHome();
 
 			// Edit keys
 			if (keycode == KEY_BACKSPACE) keyBackspace();
@@ -183,6 +185,14 @@ void NibbleEditor::keyRightArrow() {
 
 	cursor_x_cache = cursor.x;
 	updateScrollPosition();
+}
+
+void NibbleEditor::keyEnd() {
+	cursor.x = text.at(cursor.y).length();
+}
+
+void NibbleEditor::keyHome() {
+	cursor.x = 0;
 }
 
 #pragma endregion
