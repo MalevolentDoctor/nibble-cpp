@@ -30,9 +30,13 @@ class NibbleEditor {
 		void keyRightArrow();
 		void keyUpArrow();
 		void keyDownArrow();
+		void keyPageDown();
+		void keyPageUp();
 
 		void keyEnd();
 		void keyHome();
+
+
 
 		void keyBackspace();
 		void keyDelete();
