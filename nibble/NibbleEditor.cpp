@@ -45,10 +45,15 @@ void NibbleEditor::input() {
 		} else if (keycode >= 32 && keycode <= 126) { // Writable characters
 			std::string string = nkeyboard.getStringFromKeycode(keycode, true);
 			if (string != "") {
-				text.at(cursor.y).insert(cursor.x, string);
-				cursor.x++;
-				cursor_x_cache = cursor.x;
-				updateScrollPosition();
+				if (term_active) {
+					term_text.at(term_cursor.y).insert(term_cursor.x, string);
+				}
+				else {
+					text.at(cursor.y).insert(cursor.x, string);
+					cursor.x++;
+					cursor_x_cache = cursor.x;
+					updateScrollPosition();
+				}
 			}
 		}
 		// Action characters
@@ -67,6 +72,8 @@ void NibbleEditor::input() {
 			if (keycode == KEY_BACKSPACE) keyBackspace();
 			if (keycode == KEY_DELETE) keyDelete();
 			if (keycode == KEY_ENTER) keyEnter();
+
+			if (keycode == KEY_ESCAPE) keyEscape();
 		}
 	}
 
@@ -88,13 +95,21 @@ void NibbleEditor::draw() {
 		computer->getScreenHeight() - screen_border.height - screen_border.y,
 		LIGHTGRAY
 	);
-
 	// Draw cursor
 	drawCursor();
 
 	// Draw text to screen
 	drawText();
 
+	if (term_active) {
+		int y = screen_border.y + screen_buffer.y + (screen_text_height) * (ngui.getFontHeight() + vspacing);
+		DrawRectangle(
+			screen_border.x, y,
+			computer->getScreenWidth() - screen_border.width - screen_border.x,
+			computer->getScreenHeight() - y - screen_border.height,
+			BLACK
+		);
+	}
 }
 
 void NibbleEditor::drawText() {
@@ -249,5 +264,11 @@ void NibbleEditor::keyDelete() {
 		text.erase(text.begin() + cursor.y + 1);
 	}
 
+	updateScrollPosition();
+}
+
+void NibbleEditor::keyEscape() {
+	term_active = !term_active;
+	screen_text_height += term_height * ((term_active * -2) + 1);
 	updateScrollPosition();
 }

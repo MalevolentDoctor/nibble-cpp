@@ -8,6 +8,10 @@
 #include "NibbleKeyboard.h"
 #include "NibbleComputer.h"
 #include "NibbleGUI.h"
+
+
+
+
 // running ready blocked stopped ended
 class NibbleEditor {
 	public:
@@ -36,11 +40,11 @@ class NibbleEditor {
 		void keyEnd();
 		void keyHome();
 
-
-
 		void keyBackspace();
 		void keyDelete();
 		void keyEnter();
+
+		void keyEscape();
 
 		NibbleGUI ngui;
 		NibbleKeyboard nkeyboard;
@@ -63,6 +67,13 @@ class NibbleEditor {
 		int cursor_x_cache = 0;
 
 		Cursor cursor = { 0, 0, 6, 10 };
+
+		// Terminal Stuff
+		std::vector<std::string> term_text;
+		int term_height = 5;
+		bool term_active = false;
+		Cursor term_cursor = { 0, 0, 6, 10 };
+
 };
 
 #endif
