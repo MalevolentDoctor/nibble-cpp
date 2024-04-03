@@ -55,8 +55,8 @@ class NibbleEditor {
 
 		std::vector<std::string> text;
 
-		IntRectangle screen_border;
-		IntRectangle screen_buffer;
+		IntRectangle border;
+		IntRectangle buffer;
 
 		int vspacing = 1;
 		int screen_text_height;

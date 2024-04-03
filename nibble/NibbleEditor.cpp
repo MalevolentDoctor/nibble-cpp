@@ -23,13 +23,13 @@ NibbleEditor::NibbleEditor(NibbleComputer* _computer) {
 
 	text.push_back("");
 
-	screen_border = { 24, 24, 24, 24 };
-	screen_buffer = { 4, 4, 4, 4 };
+	border = { 24, 24, 24, 24 };
+	buffer = { 4, 4, 4, 4 };
 
 	screen_text_width = 
-		(int)((computer->getScreenWidth() - (screen_border.x + screen_buffer.x + screen_border.width + screen_buffer.width)) / (ngui.getFontWidth() + ngui.getFontSpacing()));
+		(int)((computer->getScreenWidth() - (border.x + buffer.x + border.width + buffer.width)) / (ngui.getFontWidth() + ngui.getFontSpacing()));
 	screen_text_height = 
-		(int)((computer->getScreenHeight() - (screen_border.y + screen_buffer.y + screen_border.height + screen_buffer.height)) / (ngui.getFontHeight() + vspacing)) + 1;
+		(int)((computer->getScreenHeight() - (border.y + buffer.y + border.height + buffer.height)) / (ngui.getFontHeight() + vspacing)) + 1;
 
 }
 
@@ -89,10 +89,10 @@ void NibbleEditor::draw() {
 	// Draw backgound
 	DrawRectangle(0, 0, computer->getScreenWidth(), computer->getScreenHeight(), GRAY);
 	DrawRectangle(
-		screen_border.x,
-		screen_border.y,
-		computer->getScreenWidth() - screen_border.width - screen_border.x,
-		computer->getScreenHeight() - screen_border.height - screen_border.y,
+		border.x,
+		border.y,
+		computer->getScreenWidth() - border.width - border.x,
+		computer->getScreenHeight() - border.height - border.y,
 		LIGHTGRAY
 	);
 	// Draw cursor
@@ -102,11 +102,11 @@ void NibbleEditor::draw() {
 	drawText();
 
 	if (term_active) {
-		int y = screen_border.y + screen_buffer.y + (screen_text_height) * (ngui.getFontHeight() + vspacing);
+		int y = border.y + buffer.y + (screen_text_height) * (ngui.getFontHeight() + vspacing);
 		DrawRectangle(
-			screen_border.x, y,
-			computer->getScreenWidth() - screen_border.width - screen_border.x,
-			computer->getScreenHeight() - y - screen_border.height,
+			border.x, y,
+			computer->getScreenWidth() - border.width - border.x,
+			computer->getScreenHeight() - y - border.height,
 			BLACK
 		);
 	}
@@ -115,9 +115,9 @@ void NibbleEditor::draw() {
 void NibbleEditor::drawText() {
 	int rows_to_draw = std::min(screen_text_height, (int)text.size() - screen_scroll);
 
-	int x = screen_border.x + screen_buffer.x;
+	int x = border.x + buffer.x;
 	int xx = x + line_indent * ngui.getFontWidth();
-	int y = screen_border.y + screen_buffer.y;
+	int y = border.y + buffer.y;
 	int dy = ngui.getFontHeight() + vspacing;
 
 	for (int i = 0; i < rows_to_draw; i++) {
@@ -132,8 +132,8 @@ void NibbleEditor::drawText() {
 
 void NibbleEditor::drawCursor() {
 	if (cursor.y < (screen_scroll + screen_text_height)) {
-		int x = screen_border.x + screen_buffer.x + (cursor.x + line_indent) * ngui.getFontWidth();
-		int y = screen_border.y + screen_buffer.y + (cursor.y - screen_scroll) * (ngui.getFontHeight() + vspacing) - 1;
+		int x = border.x + buffer.x + (cursor.x + line_indent) * ngui.getFontWidth();
+		int y = border.y + buffer.y + (cursor.y - screen_scroll) * (ngui.getFontHeight() + vspacing) - 1;
 		DrawRectangle(x, y, cursor.w, cursor.h, YELLOW);
 	}
 }
