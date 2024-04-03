@@ -1,4 +1,4 @@
-#include "NibbleGUI.h"
+#include "GUI.h"
 
 NibbleGUI::NibbleGUI() {
 

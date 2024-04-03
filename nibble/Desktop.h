@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Helper.hpp"
-#include "NibbleGUI.h"
-#include "NibbleTerminal.h"
+#include "GUI.h"
+#include "Terminal.h"
 
 enum DesktopPages {
 	DESKTOP_PAGE_DESKTOP,

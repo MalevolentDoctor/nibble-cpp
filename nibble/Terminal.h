@@ -6,8 +6,8 @@
 #include<string>
 
 #include "Helper.hpp"
-#include "NibbleKeyboard.h"
-#include "NibbleGUI.h"
+#include "Keyboard.h"
+#include "GUI.h"
 
 class NibbleTerminal {
 	public:

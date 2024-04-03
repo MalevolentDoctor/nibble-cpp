@@ -11,10 +11,10 @@
 #pragma warning(pop)
 
 #include "Helper.hpp"
-#include "NibbleGUI.h"
-#include "NibbleComputer.h"
-#include "NibbleComputerTerminal.h"
-#include "NibbleEditor.h"
+#include "GUI.h"
+#include "Computer.h"
+#include "ComputerTerminal.h"
+#include "Editor.h"
 
 
 NibbleComputer::NibbleComputer(ProgramState* program_state) : program_state(program_state) {

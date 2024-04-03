@@ -1,7 +1,7 @@
 #ifndef NIBBLECOMPUTERTERMINAL_H
 #define NIBBLECOMPUTERTERMINAL_H
 
-#include "NibbleTerminal.h"
+#include "Terminal.h"
 
 class NibbleComputer;
 

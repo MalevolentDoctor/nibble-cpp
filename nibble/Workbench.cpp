@@ -9,8 +9,8 @@
 #pragma warning(pop)
 
 
-#include "NibbleWorkbench.h"
-#include "NibbleComputer.h"
+#include "Workbench.h"
+#include "Computer.h"
 
 
 NibbleWorkbench::NibbleWorkbench(ProgramState* program_state) : program_state(program_state) {

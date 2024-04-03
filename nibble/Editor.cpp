@@ -10,8 +10,8 @@
 #pragma warning(pop)
 
 
-#include "NibbleEditor.h"
-#include "NibbleComputer.h"
+#include "Editor.h"
+#include "Computer.h"
 
 NibbleEditor::NibbleEditor(NibbleComputer* _computer) {
 	computer = _computer;

@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "Helper.hpp"
-#include "NibbleGUI.h"
+#include "GUI.h"
 
 enum ComputerAppTypes {
 	COMPUTER_APP_TERMINAL,

@@ -14,9 +14,9 @@
 #pragma warning(pop)
 
 #include "Helper.hpp"
-#include "NibbleTerminal.h"
-#include "NibbleComputer.h"
-#include "NibbleGUI.h"
+#include "Terminal.h"
+#include "Computer.h"
+#include "GUI.h"
 
 NibbleTerminal::NibbleTerminal() {
 	ngui = NibbleGUI();

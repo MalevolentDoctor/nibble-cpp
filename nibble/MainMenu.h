@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Helper.hpp"
-#include "NibbleGUI.h"
+#include "GUI.h"
 
 class MainMenu {
 	public:

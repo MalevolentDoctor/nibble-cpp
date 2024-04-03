@@ -2,7 +2,7 @@
 #define NIBBLEWORKBENCH_H
 
 #include "Helper.hpp"
-#include "NibbleComputer.h"
+#include "Computer.h"
 
 enum WorkbenchPages {
 	WORKBENCH_PAGE_COMPUTER,

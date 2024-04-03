@@ -10,7 +10,7 @@
 
 
 #include "MainMenu.h"
-#include "NibbleGUI.h"
+#include "GUI.h"
 
 
 MainMenu::MainMenu(ProgramState* program_state) : program_state(program_state) {

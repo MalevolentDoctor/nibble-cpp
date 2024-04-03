@@ -7,7 +7,7 @@
 
 #include "Helper.hpp"
 #include "MainMenu.h"
-#include "NibbleWorkbench.h"
+#include "Workbench.h"
 
 int main() {
     // initialises program state, initially "starting"

@@ -1,5 +1,5 @@
-#include "NibbleComputerTerminal.h"
-#include "NibbleComputer.h"
+#include "ComputerTerminal.h"
+#include "Computer.h"
 
 NibbleComputerTerminal::NibbleComputerTerminal(NibbleComputer* _computer) {
 	computer = _computer;

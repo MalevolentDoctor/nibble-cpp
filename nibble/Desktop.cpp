@@ -6,9 +6,9 @@
 
 #pragma warning(pop)
 
-#include "NibbleDesktop.h"
-#include "NibbleTerminal.h"
-#include "NibbleGUI.h"
+#include "Desktop.h"
+#include "Terminal.h"
+#include "GUI.h"
 
 //NibbleDesktop::NibbleDesktop(ProgramState* program_state) : program_state(program_state) {
 //	screen = LoadRenderTexture(screen_resolution_x, screen_resolution_y);

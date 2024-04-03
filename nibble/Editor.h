@@ -5,9 +5,9 @@
 #include<vector>
 
 #include "Helper.hpp"
-#include "NibbleKeyboard.h"
-#include "NibbleComputer.h"
-#include "NibbleGUI.h"
+#include "Keyboard.h"
+#include "Computer.h"
+#include "GUI.h"
 
 
 
