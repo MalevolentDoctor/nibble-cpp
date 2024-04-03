@@ -14,9 +14,7 @@
 
 
 NibbleWorkbench::NibbleWorkbench(ProgramState* program_state) : program_state(program_state) {
-	//desktop = NibbleDesktop(program_state);
 	computer = new NibbleComputer(program_state);
-	//computer->startTerminal();
 }
 
 void NibbleWorkbench::input() {
