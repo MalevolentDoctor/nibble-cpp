@@ -51,6 +51,11 @@ struct IntRectangle {
 	int height;
 };
 
+struct IntVector2 {
+	int x;
+	int y;
+};
+
 [[maybe_unused]] static std::vector<std::string> stringSplit(std::string string, std::string delimeter) {
 	std::vector<std::string> split_string;
 	size_t pos = 0;
