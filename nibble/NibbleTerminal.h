@@ -9,20 +9,16 @@
 #include "NibbleKeyboard.h"
 #include "NibbleGUI.h"
 
-class NibbleComputer;
-
 class NibbleTerminal {
 	public:
-		NibbleTerminal(NibbleComputer* _computer);
-		NibbleTerminal() = default;
+		NibbleTerminal();
 
 		void input();
 		void update();
 		void draw();
 
-	private:
-		void moveCursorLeft(int amount);
-		void moveCursorRight(int amount);
+	protected:
+		void init();
 
 		// Draw elements
 		void drawCursor();
@@ -31,6 +27,8 @@ class NibbleTerminal {
 		void keyBackspace();
 		void keyDelete();
 		void keyEnter();
+		void keyLeft();
+		void keyRight();
 		void keyUp();
 		void keyDown();
 		
@@ -38,36 +36,25 @@ class NibbleTerminal {
 		std::string getCommand(std::vector<std::string> split_input);
 		std::vector<std::string> getArguments(std::vector<std::string> split_input);
 		std::vector<std::string> getFlags(std::vector<std::string> split_input);
-
-		// Execute commands
-		void commandBuild();
-		void commandClearTerminal();
-		void commandDeleteFile();
-		void commandOpenEditor();
-		void commandFlashRom();
-		void commandHelp();
-		void commandListFiles();
-		void commandLoadFile();
-		void commandNewFile();
-		void commandDisplayRam();
-		void commandDisplayRom();
-		void commandSaveFile();
-		void commandExit();
+		virtual void interpretCommand(std::string command, std::vector<std::string> args, std::vector<std::string> flags);
 
 		void printToTerminal(std::string string);
 		void printToTerminal(std::vector<std::string> strings);
 		void scrollToCursor();
 
+		void setWindowRes(int x, int y);
+		void setLinePrompt(std::string prompt);
+
 		NibbleGUI ngui;
 		NibbleKeyboard nkeyboard;
-		NibbleComputer* computer;
+		
+		IntRectangle border;
+		IntRectangle buffer;
 
-		Rectangle screen_border;
-		Rectangle screen_buffer;
+		IntVector2 text_res;
+		IntVector2 pixel_res;
 
 		int vspacing = 1;
-		int screen_text_height;
-		int screen_text_width;
 
 		std::vector<std::string> text;
 		std::vector<std::string> command_buffer;
@@ -79,12 +66,8 @@ class NibbleTerminal {
 
 		Cursor cursor = { 0, 0, 6, 10 };
 
-		std::string pre_line;
-		int pre_line_offset;
-
-		Font font;
-		Vector2 font_size;
-		
+		std::string line_prompt;
+		int line_prompt_offset;
 };
 
 #endif

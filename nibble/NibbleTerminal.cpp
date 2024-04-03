@@ -18,30 +18,20 @@
 #include "NibbleComputer.h"
 #include "NibbleGUI.h"
 
-NibbleTerminal::NibbleTerminal(NibbleComputer* _computer) {
-	computer = _computer;
-
+NibbleTerminal::NibbleTerminal() {
 	ngui = NibbleGUI();
 	nkeyboard = NibbleKeyboard();
-
 	ngui.setGUIFont(ngui.fonts.pixel_mono_8, 0.0f);
+	border = { 0, 0, 0, 0 };
+	buffer = { 0, 0, 0, 0 };
+	line_prompt_offset = 0;
+	pixel_res = { 0, 0 };
+	text_res = { 0, 0 };
+}
 
-	pre_line = ">> ";
-	pre_line_offset = pre_line.length();
-
-	text.push_back(pre_line);
-	cursor.x = pre_line_offset;
-
-	font = ngui.getFont();
-	font_size = MeasureTextEx(font, "M", font.baseSize, 0.0f);
-
-	screen_border = { 24.0f, 24.0f, 24.0f, 24.0f };
-	screen_buffer = { 4.0f, 4.0f, 4.0f, 4.0f };
-
-	screen_text_height = (int)((computer->getScreenHeight() - (screen_border.y + screen_buffer.y + screen_border.height + screen_buffer.height)) / (font_size.y + vspacing)) + 1;
-	screen_text_width = (int)((computer->getScreenWidth() - (screen_border.x + screen_buffer.x + screen_border.width + screen_buffer.width)) / (font_size.x + ngui.getFontSpacing()));
-
-	printf("Terminal 0x%p initialised from computer 0x%p\n", this, computer);
+void NibbleTerminal::init() {
+	text.push_back(line_prompt);
+	cursor.x = line_prompt_offset;
 }
 
 void NibbleTerminal::input() {
@@ -62,8 +52,8 @@ void NibbleTerminal::input() {
 		// Action characters
 		else {
 			// Navigation keys
-			if (keycode == KEY_LEFT) moveCursorLeft(1); 
-			if (keycode == KEY_RIGHT) moveCursorRight(1); 
+			if (keycode == KEY_LEFT) keyLeft(); 
+			if (keycode == KEY_RIGHT) keyRight(); 
 
 			// Edit keys
 			if (keycode == KEY_BACKSPACE) keyBackspace();
@@ -80,27 +70,27 @@ void NibbleTerminal::update() {
 
 void NibbleTerminal::draw() {
 	// Draw backgound
-	DrawRectangle(0, 0, computer->getScreenWidth(), computer->getScreenHeight(), GRAY);
+	DrawRectangle(0, 0, pixel_res.x, pixel_res.y, GRAY);
 
-	ngui.drawText("NIBBLE TERMINAL", screen_border.width/2, (screen_border.height - ngui.getFontHeight())/2, BLACK);
+	ngui.drawText("NIBBLE TERMINAL", border.width/2, (border.height - ngui.getFontHeight())/2, BLACK);
 
 	DrawRectangle(
-		screen_border.x,
-		screen_border.y,
-		computer->getScreenWidth() - screen_border.width - screen_border.x,
-		computer->getScreenHeight() - screen_border.height - screen_border.y,
+		border.x,
+		border.y,
+		pixel_res.x - border.width - border.x,
+		pixel_res.y - border.height - border.y,
 		LIGHTGRAY
 	);
 
 	drawCursor();
 
 	// Draw text to screen
-	int rows_to_draw = std::min(screen_text_height, (int)text.size() - screen_scroll);
+	int rows_to_draw = std::min(text_res.y, (int)text.size() - screen_scroll);
 	for (int i = 0; i < rows_to_draw; i++) {
 		ngui.drawText(
 			text.at(i + screen_scroll),
-			screen_border.x + screen_buffer.x,
-			screen_border.y + screen_buffer.y + (font_size.y + vspacing) * i,
+			border.x + buffer.x,
+			border.y + buffer.y + (ngui.getFontHeight() + vspacing) * i,
 			BLACK
 		);
 	}
@@ -108,10 +98,10 @@ void NibbleTerminal::draw() {
 
 void NibbleTerminal::drawCursor() {
 	// Draw cursor
-	if (cursor.y < (screen_scroll + screen_text_height)) {
+	if (cursor.y < (screen_scroll + text_res.y)) {
 		DrawRectangle(
-			screen_border.x + screen_buffer.x + cursor.x * font_size.x,
-			screen_border.y + screen_buffer.y + (cursor.y - screen_scroll) * (font_size.y + vspacing) - 1,
+			border.x + buffer.x + cursor.x * ngui.getFontWidth(),
+			border.y + buffer.y + (cursor.y - screen_scroll) * (ngui.getFontHeight() + vspacing) - 1,
 			cursor.w, cursor.h, YELLOW
 		);
 	}
@@ -130,41 +120,31 @@ void NibbleTerminal::keyEnter() {
 
 	// Extract command
 	bool override_checks = false;
-	std::string input = text.at(cursor.y).substr(pre_line_offset, text.at(cursor.y).size() - pre_line_offset);
+	std::string input = text.at(cursor.y).substr(line_prompt_offset, text.at(cursor.y).size() - line_prompt_offset);
 	std::vector<std::string> split_input = stringSplit(input, " ");
 	std::string command = getCommand(split_input);
 	if (command.substr(0, 1) == "!") override_checks = true;
 	std::vector<std::string> args = getArguments(split_input);
 	std::vector<std::string> flags = getFlags(split_input);
 
-	// Try to execute command
-	if (command == "build") commandBuild();
-	else if (command == "clc") commandClearTerminal();
-	else if (command == "delete") commandDeleteFile();
-	else if (command == "edit") commandOpenEditor();
-	else if (command == "flash") commandFlashRom();
-	else if (command == "help") commandHelp();
-	else if (command == "list") commandListFiles();
-	else if (command == "load") commandLoadFile();
-	else if (command == "new") commandNewFile();
-	else if (command == "ram") commandDisplayRam();
-	else if (command == "rom") commandDisplayRom();
-	else if (command == "save") commandSaveFile();
-	else {
-		printToTerminal("Error: No command \"" + command + "\" found.");
-	}
+	// Interpret command
+	interpretCommand(command, args, flags);
 
 	// Create new line
-	text.push_back(pre_line);
+	text.push_back(line_prompt);
 	cursor.y++;
-	cursor.x = pre_line_offset;
+	cursor.x = line_prompt_offset;
 
 	// Update scroll position
 	scrollToCursor();
 }
 
+void NibbleTerminal::interpretCommand(std::string command, std::vector<std::string> args, std::vector<std::string> flags) {
+	printToTerminal("Error: No command interpretation methods available");
+}
+
 void NibbleTerminal::keyBackspace() {
-	if (cursor.x > pre_line_offset) {
+	if (cursor.x > line_prompt_offset) {
 		text.at(cursor.y).erase((size_t)(cursor.x - 1), 1);
 		cursor.x--;
 	}
@@ -191,7 +171,7 @@ void NibbleTerminal::keyUp() {
 		
 		if (buffer_selector < command_buffer.size() - 1) buffer_selector++;	// Iterate the buffer selector
 		text.at(cursor.y) = command_buffer.at(command_buffer.size() - buffer_selector - 1);	// Retrieve command from command buffer
-		cursor.x = text.at(cursor.y).size(); // Update cursor x position
+		cursor.x = (int)text.at(cursor.y).size(); // Update cursor x position
 	}
 }
 
@@ -203,18 +183,16 @@ void NibbleTerminal::keyDown() {
 	if (buffer_selector > 0) {
 		buffer_selector--; // Move iterator
 		text.at(cursor.y) = command_buffer.at(command_buffer.size() - buffer_selector - 1); // Retrieve command from command buffer
-		cursor.x = text.at(cursor.y).size(); // Update cursor x position
+		cursor.x = (int)text.at(cursor.y).size(); // Update cursor x position
 	}
 }
 
-void NibbleTerminal::moveCursorLeft(int amount) {
-	cursor.x -= amount;
-	if (cursor.x < pre_line_offset) cursor.x = pre_line_offset;
+void NibbleTerminal::keyLeft() {
+	if (cursor.x << line_prompt_offset > line_prompt_offset) cursor.x--;
 }
 
-void NibbleTerminal::moveCursorRight(int amount) {
-	cursor.x += amount;
-	if (cursor.x > text.at(cursor.y).length()) cursor.x = text.at(cursor.y).length();
+void NibbleTerminal::keyRight() {
+	if (cursor.x < text.at(cursor.y).length() - 1) cursor.x++;
 }
 
 std::string NibbleTerminal::getCommand(std::vector<std::string> split_input) {
@@ -243,46 +221,6 @@ std::vector<std::string> NibbleTerminal::getFlags(std::vector<std::string> split
 	return flags;
 }
 
-void NibbleTerminal::commandBuild() {
-
-}
-void NibbleTerminal::commandClearTerminal() {
-	text.clear();
-	cursor.y = -1; // Will go to zero when added to
-	screen_scroll = 0;
-}
-
-void NibbleTerminal::commandDeleteFile() {
-
-}
-void NibbleTerminal::commandOpenEditor() {
-	computer->startApplication(COMPUTER_APP_EDITOR, {{"computer", computer}});
-}
-void NibbleTerminal::commandFlashRom() {
-
-}
-void NibbleTerminal::commandHelp() {
-
-}
-void NibbleTerminal::commandListFiles() {
-
-}
-void NibbleTerminal::commandLoadFile() {
-
-}
-void NibbleTerminal::commandNewFile() {
-
-}
-void NibbleTerminal::commandDisplayRam() {
-
-}
-void NibbleTerminal::commandDisplayRom() {
-
-}
-void NibbleTerminal::commandSaveFile() {
-
-}
-
 void NibbleTerminal::printToTerminal(std::string string) {
 	text.push_back(string);
 	cursor.y++;
@@ -298,7 +236,19 @@ void NibbleTerminal::printToTerminal(std::vector<std::string> strings) {
 }
 
 void NibbleTerminal::scrollToCursor() {
-	if (cursor.y >= screen_scroll + screen_text_height) {
-		screen_scroll = cursor.y - screen_text_height + 2;
+	if (cursor.y >= screen_scroll + text_res.y) {
+		screen_scroll = cursor.y - text_res.y + 2;
 	}
+}
+
+void NibbleTerminal::setWindowRes(int x, int y) {
+	pixel_res.x = x;
+	pixel_res.y = y;
+	text_res.x = (int)((pixel_res.x - (border.x + buffer.x + border.width + buffer.width)) / (ngui.getFontWidth() + ngui.getFontSpacing()));
+	text_res.y = (int)((pixel_res.y - (border.y + buffer.y + border.height + buffer.height)) / (ngui.getFontHeight() + vspacing)) + 1;
+}
+
+void NibbleTerminal::setLinePrompt(std::string prompt) {
+	line_prompt = prompt;
+	line_prompt_offset = (int)prompt.length();
 }

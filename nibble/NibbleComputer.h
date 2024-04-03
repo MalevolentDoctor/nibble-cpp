@@ -6,8 +6,6 @@
 
 #include "Helper.hpp"
 #include "NibbleGUI.h"
-#include "NibbleTerminal.h"
-
 
 enum ComputerAppTypes {
 	COMPUTER_APP_TERMINAL,

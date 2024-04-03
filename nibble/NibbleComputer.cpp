@@ -13,7 +13,7 @@
 #include "Helper.hpp"
 #include "NibbleGUI.h"
 #include "NibbleComputer.h"
-#include "NibbleTerminal.h"
+#include "NibbleComputerTerminal.h"
 #include "NibbleEditor.h"
 
 
@@ -98,7 +98,7 @@ void NibbleComputer::startApplication(int app_type, std::map<std::string, void*>
 				// Open the appropriate application depending on the app_type enum value
 				switch (app_type) {
 				case COMPUTER_APP_TERMINAL:
-					apps[apps_count]->application = new NibbleTerminal((NibbleComputer*)(args["computer"]));
+					apps[apps_count]->application = new NibbleComputerTerminal((NibbleComputer*)(args["computer"]));
 					break;
 				case COMPUTER_APP_EDITOR:
 					apps[apps_count]->application = new NibbleEditor((NibbleComputer*)(args["computer"]));
@@ -137,7 +137,7 @@ void NibbleComputer::appInput(ComputerApplication* app) {
 	if (app->state == COMPUTER_APP_STATE_FOCUSED) {
 		switch (app->type) {
 		case COMPUTER_APP_TERMINAL:
-			((NibbleTerminal*)(app->application))->input();
+			((NibbleComputerTerminal*)(app->application))->input();
 			break;
 		case COMPUTER_APP_EDITOR:
 			((NibbleEditor*)(app->application))->input();
@@ -150,7 +150,7 @@ void NibbleComputer::appDraw(ComputerApplication* app) {
 	if (app->state == COMPUTER_APP_STATE_FOCUSED || app->state == COMPUTER_APP_STATE_SUSPENDED) {
 		switch (app->type) {
 		case COMPUTER_APP_TERMINAL:
-			((NibbleTerminal*)(app->application))->draw();
+			((NibbleComputerTerminal*)(app->application))->draw();
 			break;
 		case COMPUTER_APP_EDITOR:
 			((NibbleEditor*)(app->application))->draw();
@@ -163,7 +163,7 @@ void NibbleComputer::appUpdate(ComputerApplication* app) {
 	if (app->state == COMPUTER_APP_STATE_FOCUSED || app->state == COMPUTER_APP_STATE_SUSPENDED || app->state == COMPUTER_APP_STATE_MINIMIZED) {
 		switch (app->type) {
 		case COMPUTER_APP_TERMINAL:
-			((NibbleTerminal*)(app->application))->update();
+			((NibbleComputerTerminal*)(app->application))->update();
 			break;
 		case COMPUTER_APP_EDITOR:
 			((NibbleEditor*)(app->application))->update();
