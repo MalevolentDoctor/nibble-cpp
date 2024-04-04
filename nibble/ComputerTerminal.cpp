@@ -1,3 +1,5 @@
+#include <format>
+
 #include "ComputerTerminal.h"
 #include "Computer.h"
 
@@ -21,7 +23,7 @@ void NibbleComputerTerminal::interpretCommand(std::string command, std::vector<s
 	else if (command == "delete") commandDeleteFile();
 	else if (command == "edit") commandOpenEditor();
 	else if (command == "flash") commandFlashRom();
-	else if (command == "help") commandHelp();
+	else if (command == "help") commandHelp(args, flags, override_checks);
 	else if (command == "list") commandListFiles();
 	else if (command == "load") commandLoadFile();
 	else if (command == "new") commandNewFile();
@@ -34,7 +36,7 @@ void NibbleComputerTerminal::interpretCommand(std::string command, std::vector<s
 }
 
 void NibbleComputerTerminal::commandBuild() {
-	printToTerminal(help_text.at("assemble"));
+	
 }
 void NibbleComputerTerminal::commandClearTerminal() {
 	text.clear();
@@ -52,9 +54,27 @@ void NibbleComputerTerminal::commandOpenEditor() {
 void NibbleComputerTerminal::commandFlashRom() {
 
 }
-void NibbleComputerTerminal::commandHelp() {
 
+void NibbleComputerTerminal::commandHelp(std::vector<std::string> args, std::vector<std::string> flags, bool override_checks) {
+	if (args.size() == 0) {
+		printToTerminal(help_text.at("help"));
+	}
+	else if (args.size() > 1) {
+		printToTerminal("Error: Too many arguments");
+	}
+	else {
+		std::string help_key = args.at(0);
+		auto iterator = help_text.find(help_key);
+		if (iterator != help_text.end()) {
+			printf("%s\n", args.at(0).c_str());
+			printToTerminal(help_text.at(args.at(0)));
+		}
+		else {
+			printToTerminal(std::format("Error: No help document exists for the command \"{}\"", help_key));
+		}
+	}
 }
+
 void NibbleComputerTerminal::commandListFiles() {
 
 }
