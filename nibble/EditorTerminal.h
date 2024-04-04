@@ -11,7 +11,7 @@ class NibbleEditorTerminal: public NibbleTerminal {
 
 	protected:
 
-		void interpretCommand(std::string command, std::vector<std::string> args, std::vector<std::string> flags) override;
+		void interpretCommand(std::string command, std::vector<std::string> args, std::vector<std::string> flags, bool override_checks) override;
 
 		void commandClearTerminal();
 

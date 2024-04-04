@@ -14,7 +14,7 @@ NibbleEditorTerminal::NibbleEditorTerminal(NibbleEditor* _editor, float size) {
 	init();
 }
 
-void NibbleEditorTerminal::interpretCommand(std::string command, std::vector<std::string> args, std::vector<std::string> flags) {
+void NibbleEditorTerminal::interpretCommand(std::string command, std::vector<std::string> args, std::vector<std::string> flags, bool override_checks) {
 	if (command == "clc") commandClearTerminal();
 	else {
 		printToTerminal("Error: No command \"" + command + "\" found.");

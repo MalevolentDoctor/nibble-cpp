@@ -15,7 +15,7 @@ NibbleComputerTerminal::NibbleComputerTerminal(NibbleComputer* _computer) {
 	init();
 }
 
-void NibbleComputerTerminal::interpretCommand(std::string command, std::vector<std::string> args, std::vector<std::string> flags) {
+void NibbleComputerTerminal::interpretCommand(std::string command, std::vector<std::string> args, std::vector<std::string> flags, bool override_checks) {
 	if (command == "build") commandBuild();
 	else if (command == "clc") commandClearTerminal();
 	else if (command == "delete") commandDeleteFile();

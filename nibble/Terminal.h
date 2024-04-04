@@ -48,7 +48,7 @@ class NibbleTerminal {
 		std::string getCommand(std::vector<std::string> split_input);
 		std::vector<std::string> getArguments(std::vector<std::string> split_input);
 		std::vector<std::string> getFlags(std::vector<std::string> split_input);
-		virtual void interpretCommand(std::string command, std::vector<std::string> args, std::vector<std::string> flags);
+		virtual void interpretCommand(std::string command, std::vector<std::string> args, std::vector<std::string> flags, bool override_checks);
 
 		void printToTerminal(std::string string);
 		void printToTerminal(std::vector<std::string> strings);

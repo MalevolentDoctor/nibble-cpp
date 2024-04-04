@@ -124,7 +124,7 @@ void NibbleTerminal::keyEnter() {
 	std::vector<std::string> flags = getFlags(split_input);
 
 	// Interpret command
-	interpretCommand(command, args, flags);
+	interpretCommand(command, args, flags, override_checks);
 
 	// Create new line
 	text.push_back(line_prompt);
@@ -135,7 +135,7 @@ void NibbleTerminal::keyEnter() {
 	scrollToCursor();
 }
 
-void NibbleTerminal::interpretCommand(std::string command, std::vector<std::string> args, std::vector<std::string> flags) {
+void NibbleTerminal::interpretCommand(std::string command, std::vector<std::string> args, std::vector<std::string> flags, bool override_checks) {
 	printToTerminal("Error: No command interpretation methods available");
 }
 
