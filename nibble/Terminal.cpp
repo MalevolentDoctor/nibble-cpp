@@ -24,6 +24,7 @@ NibbleTerminal::NibbleTerminal() {
 	nkeyboard = NibbleKeyboard::getInstance();
 	ngui->setGUIFont(ngui->fonts.pixel_mono_8, 0.0f);
 	buffer = { 0, 0, 0, 0 };
+	window = { 0, 0, 0, 0 };
 	line_prompt_offset = 0;
 	text_res = { 0, 0 };
 }

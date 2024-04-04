@@ -46,6 +46,7 @@ void NibbleComputerTerminal::commandDeleteFile() {
 
 }
 void NibbleComputerTerminal::commandOpenEditor() {
+	nkeyboard->clearInputs(); // Don't execute anymore key presses
 	computer->startApplication(COMPUTER_APP_EDITOR, { {"computer", computer} });
 }
 void NibbleComputerTerminal::commandFlashRom() {
