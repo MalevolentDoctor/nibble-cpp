@@ -11,15 +11,23 @@
 
 
 #include "Editor.h"
+#include "EditorTerminal.h"
 #include "Computer.h"
 
 NibbleEditor::NibbleEditor(NibbleComputer* _computer) {
 	computer = _computer;
 
-	ngui = NibbleGUI();
-	nkeyboard = NibbleKeyboard();
+	ngui = new NibbleGUI();
+	nkeyboard = NibbleKeyboard::getInstance();
 
-	ngui.setGUIFont(ngui.fonts.pixel_mono_8, 0.0f);
+	// Configure terminal
+	terminal = new NibbleEditorTerminal(this, terminal_size);
+	terminal->active = false;
+	terminal->visible = false;
+	terminal->setBackgroundColour(BLACK);
+	terminal->setTextColour(RAYWHITE);
+
+	ngui->setGUIFont(ngui->fonts.pixel_mono_8, 0.0f);
 
 	text.push_back("");
 
@@ -27,33 +35,35 @@ NibbleEditor::NibbleEditor(NibbleComputer* _computer) {
 	buffer = { 4, 4, 4, 4 };
 
 	screen_text_width = 
-		(int)((computer->getScreenWidth() - (border.x + buffer.x + border.width + buffer.width)) / (ngui.getFontWidth() + ngui.getFontSpacing()));
+		(int)((computer->getScreenWidth() - (border.x + buffer.x + border.width + buffer.width)) / (ngui->getFontWidth() + ngui->getFontSpacing()));
 	screen_text_height = 
-		(int)((computer->getScreenHeight() - (border.y + buffer.y + border.height + buffer.height)) / (ngui.getFontHeight() + vspacing)) + 1;
+		(int)((computer->getScreenHeight() - (border.y + buffer.y + border.height + buffer.height)) / (ngui->getFontHeight() + vspacing)) + 1;
 
 }
 
 void NibbleEditor::input() {
-	nkeyboard.update(GetFrameTime());
+	std::vector<int> input_queue = nkeyboard->getInputQueue();
+	size_t input_queue_length = input_queue.size();
 
 	int keycode = 0;
+	for (size_t i = 0; i < input_queue_length; i++) {
+		keycode = input_queue.at(i);
 
-	while ((keycode = nkeyboard.getKeyPressed())) {
+		if (terminal_active) {
+			if (keycode == KEY_ESCAPE) keyEscape();
+			continue;
+		}
+
 		if (IsKeyDown(KEY_LEFT_CONTROL) || IsKeyDown(KEY_RIGHT_CONTROL)) { // Modifier Key
 
 
 		} else if (keycode >= 32 && keycode <= 126) { // Writable characters
-			std::string string = nkeyboard.getStringFromKeycode(keycode, true);
+			std::string string = nkeyboard->getStringFromKeycode(keycode, true);
 			if (string != "") {
-				if (term_active) {
-					term_text.at(term_cursor.y).insert(term_cursor.x, string);
-				}
-				else {
-					text.at(cursor.y).insert(cursor.x, string);
-					cursor.x++;
-					cursor_x_cache = cursor.x;
-					updateScrollPosition();
-				}
+				text.at(cursor.y).insert(cursor.x, string);
+				cursor.x++;
+				cursor_x_cache = cursor.x;
+				updateScrollPosition();
 			}
 		}
 		// Action characters
@@ -77,13 +87,13 @@ void NibbleEditor::input() {
 		}
 	}
 
-
+	terminal->input();
 }
 
 void NibbleEditor::update() {
 	line_indent = (int)std::to_string(text.size() - 1).size() + 1;
+	terminal->update();
 }
-
 
 void NibbleEditor::draw() {
 	// Draw backgound
@@ -101,39 +111,31 @@ void NibbleEditor::draw() {
 	// Draw text to screen
 	drawText();
 
-	if (term_active) {
-		int y = border.y + buffer.y + (screen_text_height) * (ngui.getFontHeight() + vspacing);
-		DrawRectangle(
-			border.x, y,
-			computer->getScreenWidth() - border.width - border.x,
-			computer->getScreenHeight() - y - border.height,
-			BLACK
-		);
-	}
+	terminal->draw();
 }
 
 void NibbleEditor::drawText() {
 	int rows_to_draw = std::min(screen_text_height, (int)text.size() - screen_scroll);
 
 	int x = border.x + buffer.x;
-	int xx = x + line_indent * ngui.getFontWidth();
+	int xx = x + line_indent * ngui->getFontWidth();
 	int y = border.y + buffer.y;
-	int dy = ngui.getFontHeight() + vspacing;
+	int dy = ngui->getFontHeight() + vspacing;
 
 	for (int i = 0; i < rows_to_draw; i++) {
 		int line_num = i + screen_scroll;
 		std::string line_num_str = std::to_string(i + screen_scroll);
 
 		int yy = y + dy * i;
-		ngui.drawText(line_num_str, x, yy, DARKGRAY);
-		ngui.drawText(text.at(line_num), xx, yy, BLACK);
+		ngui->drawText(line_num_str, x, yy, DARKGRAY);
+		ngui->drawText(text.at(line_num), xx, yy, BLACK);
 	}
 }
 
 void NibbleEditor::drawCursor() {
 	if (cursor.y < (screen_scroll + screen_text_height)) {
-		int x = border.x + buffer.x + (cursor.x + line_indent) * ngui.getFontWidth();
-		int y = border.y + buffer.y + (cursor.y - screen_scroll) * (ngui.getFontHeight() + vspacing) - 1;
+		int x = border.x + buffer.x + (cursor.x + line_indent) * ngui->getFontWidth();
+		int y = border.y + buffer.y + (cursor.y - screen_scroll) * (ngui->getFontHeight() + vspacing) - 1;
 		DrawRectangle(x, y, cursor.w, cursor.h, YELLOW);
 	}
 }
@@ -268,7 +270,10 @@ void NibbleEditor::keyDelete() {
 }
 
 void NibbleEditor::keyEscape() {
-	term_active = !term_active;
-	screen_text_height += term_height * ((term_active * -2) + 1);
-	updateScrollPosition();
+	terminal_active = !terminal_active;
+
+	terminal->active = terminal_active;
+	terminal->visible = terminal_active;
+
+	IntRectangle terminal_window_rec = terminal->getWindowRec();
 }

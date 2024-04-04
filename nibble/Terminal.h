@@ -17,8 +17,20 @@ class NibbleTerminal {
 		void update();
 		void draw();
 
+		bool active = true;
+		bool visible = true;
+
+		void setBackgroundColour(Color colour);
+		void setTextColour(Color colour);
+		IntRectangle getWindowRec() { return window; };
+		
+
 	protected:
 		void init();
+		void setWindowSize(int x, int y);
+		void setWindowPosition(int w, int h);
+		
+		
 
 		// Draw elements
 		void drawCursor();
@@ -42,17 +54,17 @@ class NibbleTerminal {
 		void printToTerminal(std::vector<std::string> strings);
 		void scrollToCursor();
 
-		void setWindowRes(int x, int y);
 		void setLinePrompt(std::string prompt);
 
-		NibbleGUI ngui;
-		NibbleKeyboard nkeyboard;
+
+		NibbleGUI* ngui;
+		NibbleKeyboard* nkeyboard;
 		
-		IntRectangle border;
 		IntRectangle buffer;
 
 		IntVector2 text_res;
-		IntVector2 pixel_res;
+
+		IntRectangle window;
 
 		int vspacing = 1;
 
@@ -68,6 +80,9 @@ class NibbleTerminal {
 
 		std::string line_prompt;
 		int line_prompt_offset;
+
+		Color background_colour = LIGHTGRAY;
+		Color text_colour = BLACK;
 };
 
 #endif

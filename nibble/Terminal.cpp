@@ -16,16 +16,15 @@
 #include "Helper.hpp"
 #include "Terminal.h"
 #include "Computer.h"
+#include "Keyboard.h"
 #include "GUI.h"
 
 NibbleTerminal::NibbleTerminal() {
-	ngui = NibbleGUI();
-	nkeyboard = NibbleKeyboard();
-	ngui.setGUIFont(ngui.fonts.pixel_mono_8, 0.0f);
-	border = { 0, 0, 0, 0 };
+	ngui = new NibbleGUI();
+	nkeyboard = NibbleKeyboard::getInstance();
+	ngui->setGUIFont(ngui->fonts.pixel_mono_8, 0.0f);
 	buffer = { 0, 0, 0, 0 };
 	line_prompt_offset = 0;
-	pixel_res = { 0, 0 };
 	text_res = { 0, 0 };
 }
 
@@ -35,14 +34,18 @@ void NibbleTerminal::init() {
 }
 
 void NibbleTerminal::input() {
-	nkeyboard.update(GetFrameTime());
+	std::vector<int> input_queue = nkeyboard->getInputQueue();
+	size_t input_queue_length = input_queue.size();
 
 	int keycode = 0;
+	for (size_t i = 0; i < input_queue_length; i++) {
+		if (!active) continue;
 
-	while ((keycode = nkeyboard.getKeyPressed())) {
+		keycode = input_queue.at(i);
+
 		// Writable characters
 		if (keycode >= 32 && keycode <= 126) {
-			std::string string = nkeyboard.getStringFromKeycode(keycode, true);
+			std::string string = nkeyboard->getStringFromKeycode(keycode, true);
 			if (string != "") {
 				text.at(cursor.y).append(string);
 				cursor.x++;
@@ -52,8 +55,8 @@ void NibbleTerminal::input() {
 		// Action characters
 		else {
 			// Navigation keys
-			if (keycode == KEY_LEFT) keyLeft(); 
-			if (keycode == KEY_RIGHT) keyRight(); 
+			if (keycode == KEY_LEFT) keyLeft();
+			if (keycode == KEY_RIGHT) keyRight();
 
 			// Edit keys
 			if (keycode == KEY_BACKSPACE) keyBackspace();
@@ -69,29 +72,21 @@ void NibbleTerminal::update() {
 }
 
 void NibbleTerminal::draw() {
+	if (!visible) return;
+
 	// Draw backgound
-	DrawRectangle(0, 0, pixel_res.x, pixel_res.y, GRAY);
-
-	ngui.drawText("NIBBLE TERMINAL", border.width/2, (border.height - ngui.getFontHeight())/2, BLACK);
-
-	DrawRectangle(
-		border.x,
-		border.y,
-		pixel_res.x - border.width - border.x,
-		pixel_res.y - border.height - border.y,
-		LIGHTGRAY
-	);
+	DrawRectangle(window.x, window.y, window.width, window.height, background_colour);
 
 	drawCursor();
 
 	// Draw text to screen
 	int rows_to_draw = std::min(text_res.y, (int)text.size() - screen_scroll);
 	for (int i = 0; i < rows_to_draw; i++) {
-		ngui.drawText(
+		ngui->drawText(
 			text.at(i + screen_scroll),
-			border.x + buffer.x,
-			border.y + buffer.y + (ngui.getFontHeight() + vspacing) * i,
-			BLACK
+			window.x + buffer.x,
+			window.y + buffer.y + (ngui->getFontHeight() + vspacing) * i,
+			text_colour
 		);
 	}
 }
@@ -100,8 +95,8 @@ void NibbleTerminal::drawCursor() {
 	// Draw cursor
 	if (cursor.y < (screen_scroll + text_res.y)) {
 		DrawRectangle(
-			border.x + buffer.x + cursor.x * ngui.getFontWidth(),
-			border.y + buffer.y + (cursor.y - screen_scroll) * (ngui.getFontHeight() + vspacing) - 1,
+			window.x + buffer.x + cursor.x * ngui->getFontWidth(),
+			window.y + buffer.y + (cursor.y - screen_scroll) * (ngui->getFontHeight() + vspacing) - 1,
 			cursor.w, cursor.h, YELLOW
 		);
 	}
@@ -241,12 +236,27 @@ void NibbleTerminal::scrollToCursor() {
 	}
 }
 
-void NibbleTerminal::setWindowRes(int x, int y) {
-	pixel_res.x = x;
-	pixel_res.y = y;
-	text_res.x = (int)((pixel_res.x - (border.x + buffer.x + border.width + buffer.width)) / (ngui.getFontWidth() + ngui.getFontSpacing()));
-	text_res.y = (int)((pixel_res.y - (border.y + buffer.y + border.height + buffer.height)) / (ngui.getFontHeight() + vspacing)) + 1;
+void NibbleTerminal::setWindowSize(int x, int y) {
+	window.width = x;
+	window.height = y;
+	text_res.x = (int)((x - (buffer.x + buffer.width)) / (ngui->getFontWidth() + ngui->getFontSpacing()));
+	text_res.y = (int)((y - (buffer.y + buffer.height)) / (ngui->getFontHeight() + vspacing)) + 1;
 }
+
+void NibbleTerminal::setWindowPosition(int x, int y) {
+	window.x = x;
+	window.y = y;
+}
+
+void NibbleTerminal::setBackgroundColour(Color colour) {
+	background_colour = colour;
+}
+
+void NibbleTerminal::setTextColour(Color colour) {
+	text_colour = colour;
+}
+
+
 
 void NibbleTerminal::setLinePrompt(std::string prompt) {
 	line_prompt = prompt;

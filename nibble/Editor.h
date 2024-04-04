@@ -7,6 +7,7 @@
 #include "Helper.hpp"
 #include "Keyboard.h"
 #include "Computer.h"
+#include "EditorTerminal.h"
 #include "GUI.h"
 
 
@@ -22,6 +23,8 @@ class NibbleEditor {
 		void update();
 		void draw();
 
+		NibbleComputer* computer;
+
 	private:
 		void updateScrollPosition();
 		
@@ -36,19 +39,16 @@ class NibbleEditor {
 		void keyDownArrow();
 		void keyPageDown();
 		void keyPageUp();
-
 		void keyEnd();
 		void keyHome();
-
 		void keyBackspace();
 		void keyDelete();
 		void keyEnter();
-
 		void keyEscape();
 
-		NibbleGUI ngui;
-		NibbleKeyboard nkeyboard;
-		NibbleComputer* computer;
+		NibbleGUI* ngui;
+		NibbleKeyboard* nkeyboard;
+		NibbleEditorTerminal* terminal;
 
 		std::string file_name = "";
 		bool file_saved = false;
@@ -68,12 +68,8 @@ class NibbleEditor {
 
 		Cursor cursor = { 0, 0, 6, 10 };
 
-		// Terminal Stuff
-		std::vector<std::string> term_text;
-		int term_height = 5;
-		bool term_active = false;
-		Cursor term_cursor = { 0, 0, 6, 10 };
-
+		float terminal_size = 0.2f;
+		bool terminal_active = false;
 };
 
 #endif
