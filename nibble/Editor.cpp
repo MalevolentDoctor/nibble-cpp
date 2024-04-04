@@ -126,7 +126,7 @@ void NibbleEditor::drawText() {
 		int line_num = i + screen_scroll;
 		std::string line_num_str = std::to_string(i + screen_scroll);
 
-		int yy = y + dy * i;
+		int yy = y + dy * i + 1;
 		ngui->drawText(line_num_str, x, yy, DARKGRAY);
 		ngui->drawText(text.at(line_num), xx, yy, BLACK);
 	}
@@ -135,7 +135,7 @@ void NibbleEditor::drawText() {
 void NibbleEditor::drawCursor() {
 	if (cursor.y < (screen_scroll + screen_text_height)) {
 		int x = border.x + buffer.x + (cursor.x + line_indent) * ngui->getFontWidth();
-		int y = border.y + buffer.y + (cursor.y - screen_scroll) * (ngui->getFontHeight() + vspacing) - 2;
+		int y = border.y + buffer.y + (cursor.y - screen_scroll) * (ngui->getFontHeight() + vspacing) - 1;
 		DrawRectangle(x, y, cursor.w, cursor.h, YELLOW);
 	}
 }

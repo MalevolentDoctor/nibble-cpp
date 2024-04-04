@@ -86,7 +86,7 @@ void NibbleTerminal::draw() {
 		ngui->drawText(
 			text.at(i + screen_scroll),
 			window.x + buffer.x,
-			window.y + buffer.y + (ngui->getFontHeight() + vspacing) * i,
+			window.y + buffer.y + (ngui->getFontHeight() + vspacing) * i + 1,
 			text_colour
 		);
 	}
@@ -97,7 +97,7 @@ void NibbleTerminal::drawCursor() {
 	if (cursor.y < (screen_scroll + text_res.y)) {
 		DrawRectangle(
 			window.x + buffer.x + cursor.x * (ngui->getFontWidth()),
-			window.y + buffer.y + (cursor.y - screen_scroll) * (ngui->getFontHeight() + vspacing) - 2,
+			window.y + buffer.y + (cursor.y - screen_scroll) * (ngui->getFontHeight() + vspacing) - 1,
 			cursor.w, cursor.h, YELLOW
 		);
 	}

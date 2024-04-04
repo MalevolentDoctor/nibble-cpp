@@ -68,7 +68,7 @@ class NibbleEditor {
 
 		Cursor cursor = { 0, 0, 6, 10 };
 
-		float terminal_size = 0.2f;
+		float terminal_size = 0.22f;
 		bool terminal_active = false;
 };
 
