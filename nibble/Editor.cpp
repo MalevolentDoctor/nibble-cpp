@@ -27,7 +27,7 @@ NibbleEditor::NibbleEditor(NibbleComputer* _computer) {
 	terminal->setBackgroundColour(BLACK);
 	terminal->setTextColour(RAYWHITE);
 
-	ngui->setGUIFont(ngui->fonts.pixel_mono_8, 0.0f);
+	ngui->setGUIFont(ngui->fonts.pixel_mono_8x7, 1.0f);
 
 	text.push_back("");
 
@@ -135,7 +135,7 @@ void NibbleEditor::drawText() {
 void NibbleEditor::drawCursor() {
 	if (cursor.y < (screen_scroll + screen_text_height)) {
 		int x = border.x + buffer.x + (cursor.x + line_indent) * ngui->getFontWidth();
-		int y = border.y + buffer.y + (cursor.y - screen_scroll) * (ngui->getFontHeight() + vspacing) - 1;
+		int y = border.y + buffer.y + (cursor.y - screen_scroll) * (ngui->getFontHeight() + vspacing) - 2;
 		DrawRectangle(x, y, cursor.w, cursor.h, YELLOW);
 	}
 }

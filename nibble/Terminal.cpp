@@ -22,7 +22,7 @@
 NibbleTerminal::NibbleTerminal() {
 	ngui = new NibbleGUI();
 	nkeyboard = NibbleKeyboard::getInstance();
-	ngui->setGUIFont(ngui->fonts.pixel_mono_8, 0.0f);
+	ngui->setGUIFont(ngui->fonts.pixel_mono_8x7, 1.0f);
 	buffer = { 0, 0, 0, 0 };
 	window = { 0, 0, 0, 0 };
 	line_prompt_offset = 0;
@@ -96,8 +96,8 @@ void NibbleTerminal::drawCursor() {
 	// Draw cursor
 	if (cursor.y < (screen_scroll + text_res.y)) {
 		DrawRectangle(
-			window.x + buffer.x + cursor.x * ngui->getFontWidth(),
-			window.y + buffer.y + (cursor.y - screen_scroll) * (ngui->getFontHeight() + vspacing) - 1,
+			window.x + buffer.x + cursor.x * (ngui->getFontWidth()),
+			window.y + buffer.y + (cursor.y - screen_scroll) * (ngui->getFontHeight() + vspacing) - 2,
 			cursor.w, cursor.h, YELLOW
 		);
 	}

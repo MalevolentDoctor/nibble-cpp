@@ -37,6 +37,7 @@ struct GuiFonts {
 	Font kong_text_32 = LoadFontEx("assets/fonts/kongtext.ttf", 32, 0, 250);
 
 	Font pixel_mono_8 = LoadFontEx("assets/fonts/pixelmono8x8.ttf", 8, 0, 250);
+	Font pixel_mono_8x7 = LoadFontEx("assets/fonts/8x7pixelfont.ttf", 8, 0, 250);
 };
 
 struct GuiColours {
@@ -56,8 +57,6 @@ struct ButtonParams {
 	float corner_roundness = 0.0f;		// Corner roundness [0,1]
 	int corner_segments = 10;
 	float border_w = 4.0f;
-
-
 
 	int text_align = TEXT_ALIGN_CENTRE_H | TEXT_ALIGN_CENTRE_V;
 

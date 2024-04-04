@@ -34,7 +34,7 @@ void NibbleComputerTerminal::interpretCommand(std::string command, std::vector<s
 }
 
 void NibbleComputerTerminal::commandBuild() {
-
+	printToTerminal(help_text.at("assemble"));
 }
 void NibbleComputerTerminal::commandClearTerminal() {
 	text.clear();
