@@ -4,10 +4,12 @@
 NibbleComputerTerminal::NibbleComputerTerminal(NibbleComputer* _computer) {
 	computer = _computer;
 
-	setWindowRes(computer->getScreenWidth(), computer->getScreenHeight());
+	setWindowPosition(24, 24);
+	setWindowSize(computer->getScreenWidth() - 2*window.x, computer->getScreenHeight() - 2*window.y);
+	
 	setLinePrompt(">> ");
 
-	border = { 24, 24, 24, 24 };
+	//border = { 24, 24, 24, 24 };
 	buffer = { 4, 4, 4, 4 };
 
 	init();
