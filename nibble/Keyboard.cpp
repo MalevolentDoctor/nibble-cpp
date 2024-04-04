@@ -8,21 +8,24 @@
 
 #pragma warning(pop)
 
-
 #include "Keyboard.h"
 
-NibbleKeyboard::NibbleKeyboard() {
+NibbleKeyboard* NibbleKeyboard::getInstance() {
+	if (instance_pointer == nullptr) {
+		instance_pointer = new NibbleKeyboard();
+	}
 
+	return instance_pointer;
 }
 
-void NibbleKeyboard::update(float dt) {
+void NibbleKeyboard::updateInputs() {
 	// Update the queue, doing it this way will leave the first pressed at the end of the queue.
 	int keycode = 0;
 	while ((keycode = GetKeyPressed())) {
 		key_pressed_queue.push_back(keycode);
 	}
 
-	repeat_timer -= dt;
+	repeat_timer -= GetFrameTime();
 
 	// If we must have pressed a new key, overwriting the currently repeating key
 	if (key_pressed_queue.size() > 0) {
@@ -42,17 +45,12 @@ void NibbleKeyboard::update(float dt) {
 	}
 }
 
-int NibbleKeyboard::getKeyPressed() {
+std::vector<int> NibbleKeyboard::getInputQueue() {
+	return key_pressed_queue;
+}
 
-	int key = 0;
-	
-	// In order of keys pressed
-	if (key_pressed_queue.size() > 0) {
-		key = key_pressed_queue.back();
-		key_pressed_queue.pop_back();
-	}
-
-	return key;
+void NibbleKeyboard::clearInputs() {
+	key_pressed_queue.clear();
 }
 
 std::string NibbleKeyboard::getStringFromKeycode(int keycode, bool consider_modifiers) {

@@ -8,6 +8,9 @@
 #include "Helper.hpp"
 #include "MainMenu.h"
 #include "Workbench.h"
+#include "Keyboard.h"
+
+NibbleKeyboard* NibbleKeyboard::instance_pointer = nullptr;
 
 int main() {
     // initialises program state, initially "starting"
@@ -22,23 +25,26 @@ int main() {
     // Declare objects
     MainMenu main_menu(&program_state);
     NibbleWorkbench workbench(&program_state);
+    NibbleKeyboard* keyboard = NibbleKeyboard::getInstance();
     
 
     while (!(program_state.state == PROGRAM_STATE_SHOULD_CLOSE)) {
-
+        // Pre step
         if (WindowShouldClose()) {
             program_state.state = PROGRAM_STATE_SHOULD_CLOSE;
         }
 
         // Perform startup procedure
         if (program_state.state == PROGRAM_STATE_STARTING) {
-            
             program_state.state = PROGRAM_STATE_RUNNING;
         }
 
+        // Main loop operations
         if (program_state.state == PROGRAM_STATE_RUNNING) {
+            keyboard->updateInputs();
 
-            if (program_state.mode == PROGRAM_MODE_WORKBENCH) { 
+
+            if (program_state.mode == PROGRAM_MODE_WORKBENCH) {
                 workbench.input(); 
                 workbench.update(GetFrameTime());
             }
@@ -51,6 +57,8 @@ int main() {
 
 
             EndDrawing();
+
+            keyboard->clearInputs();
         }
     }
 

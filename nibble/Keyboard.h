@@ -8,14 +8,25 @@
 
 class NibbleKeyboard {
 	public:
-		NibbleKeyboard();
 
-		void update(float dt);
+		// Remove copy/move operators
+		NibbleKeyboard(const NibbleKeyboard&) = delete;
+		NibbleKeyboard& operator=(const NibbleKeyboard&) = delete;
+		NibbleKeyboard(NibbleKeyboard&&) = delete;
+		NibbleKeyboard& operator=(NibbleKeyboard&&) = delete;
 
+		void updateInputs();
+		void clearInputs();
+
+		std::vector<int> getInputQueue();
+
+		static NibbleKeyboard* getInstance();
 		std::string getStringFromKeycode(int keycode, bool consider_modifiers);
-		int getKeyPressed();
 
 	private:
+		NibbleKeyboard() {};
+
+		static NibbleKeyboard* instance_pointer;
 		std::vector<int> key_pressed_queue;
 
 		int repeat_key = 0;
